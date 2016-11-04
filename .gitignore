@@ -19,3 +19,5 @@ bin/*
 
 lib/*
 !lib/.keep
+
+Dictionary.cbp
