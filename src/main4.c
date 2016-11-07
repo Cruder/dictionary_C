@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "gestexpr.h"
+#include <stdio.h>
 
 int main(void) {
   printf("Hello Word\n");
