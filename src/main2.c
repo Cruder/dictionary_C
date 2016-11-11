@@ -1,5 +1,4 @@
 #include "gestrech.h"
-#include <stdio.h>
 
 int main(void) {
   printf("Hello Word\n");
