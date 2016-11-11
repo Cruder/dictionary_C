@@ -20,4 +20,9 @@ bin/*
 lib/*
 !lib/.keep
 
+doc/*
+!doc/.keep
+
+.DS_Store
+
 Dictionary.cbp
