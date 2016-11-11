@@ -3,4 +3,9 @@
 
 #include "dictionary.h"
 
+void printMainMenu();
+void printMenu();
+void mainMenu();
+void menu();
+
 #endif //__GESTBIB_H__
