@@ -6,7 +6,7 @@
  *
  */
 void printMainMenu() {
-  printf("\n\n*** Dictionnries management ***\n\n"
+  printf("\n\n*** Dictionaries management ***\n\n"
          "\t1. Open an existing dictionary\n"
          "\t2. Create an empty dictionary\n"
          "\t3. Create a dictionary with a text file\n"
@@ -33,8 +33,8 @@ void printMenu() {
  */
 void mainMenu() {
   int choice;
-  printMainMenu();
   do {
+    printMainMenu();
     do {
       printf("Your choice: ");
     } while(!getIntRange(&choice, 0, 4));
@@ -66,8 +66,8 @@ void mainMenu() {
  */
 void menu() {
   int choice;
-  printMenu();
   do {
+    printMenu();
     do {
       printf("Your choice: ");
     } while(!getIntRange(&choice, 0, 2));
@@ -81,7 +81,6 @@ void menu() {
         break;
       case 0:
         clear();
-        printMainMenu();
         break;
     }
   } while(choice != 0);
