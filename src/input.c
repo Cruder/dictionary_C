@@ -66,7 +66,7 @@ bool getString(size_t size, char *str) {
   char line[size + 1];
   fseek(stdin, 0, SEEK_END);
   if (fgets(line, sizeof(line), stdin)) {
-    if (1 == sscanf(line, "%s", str)) {
+    if (1 == sscanf(line, "%[^\n]s", str)) {
       return true;
     }
   }
