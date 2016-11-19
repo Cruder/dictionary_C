@@ -7,5 +7,6 @@ void printMainMenu();
 void printMenu();
 void mainMenu();
 void menu();
+void menuCreateDictionary();
 
 #endif //__GESTBIB_H__
