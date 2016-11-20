@@ -1,0 +1,14 @@
+machine:
+  environment:
+    CIRCLE_ENV: test
+
+## Customize dependencies
+dependencies:
+  pre:
+    - cmake .
+    - make
+
+## Customize test commands
+test:
+  override:
+    - ./bin/Dictionary_test
