@@ -15,7 +15,7 @@ typedef struct {
 Metadata *emptyMetadata();
 bool createMetadata(const char *filename);
 Metadata *loadMetadata(const char *filename);
-FILE* OpenMetadataFile(const char *filename, const char *rights);
+FILE* openMetadataFile(const char *filename, const char *rights);
 void freeMetadata(Metadata *m);
 void displayMetadata(const Metadata *m);
 
