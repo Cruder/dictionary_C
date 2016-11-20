@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * \fn Metadata *emptyMetadata()
+ *
+ * \brief Function for init a Dictionary struct
+ * \return Boolean of success or not
+ */
 Metadata *emptyMetadata() {
   Metadata *m = malloc(sizeof(Metadata));
   m->file = NULL;
@@ -46,21 +52,35 @@ FILE* OpenMetadataFile(const char *filename, const char *rights) {
   return file;
 }
 
-
+/**
+ * \fn Metadata *loadMetadata(const char *filename)
+ * \param filename String corresponding to the name of the file to open
+ *
+ * \brief Function for opening a metadata file
+ * \return FILE* pointer to the file, NULL if failure
+ */
 Metadata *loadMetadata(const char *filename) {
   Metadata *m = emptyMetadata();
   m->file = OpenMetadataFile(filename, "r");
-  fscanf(m->file, "# dictionary\n");
-  fscanf(m->file, "# length: %zu\n", &m->length);
-  for(size_t i = 0; i < 26; ++i) {
-    char empty;
-    fscanf(m->file, "# %c_start: %d\n", &empty, &m->letters[i]);
+  if(m->file) {
+    fscanf(m->file, "# dictionary\n");
+    fscanf(m->file, "# length: %zu\n", &m->length);
+    for(size_t i = 0; i < 26; ++i) {
+      char empty;
+      fscanf(m->file, "# %c_start: %d\n", &empty, &m->letters[i]);
+    }
+    fclose(m->file);
+    m->file = NULL;
   }
-  fclose(m->file);
-  m->file = NULL;
   return m;
 }
 
+/**
+ * \fn void freeMetadata(Metadata *m)
+ * \param m Metadata struct pointer
+ *
+ * \brief Free the m Metadata struct
+ */
 void freeMetadata(Metadata *m) {
   if(m->file) {
     fclose(m->file);
@@ -70,6 +90,12 @@ void freeMetadata(Metadata *m) {
   m = NULL;
 }
 
+/**
+ * \fn void displayMetadata(const Metadata *m)
+ * \param m Metadata struct pointer
+ *
+ * \brief Display the length and all the start_letter
+ */
 void displayMetadata(const Metadata *m) {
   printf("length: %zu\n", m->length);
   for (int i = 0; i < 26; i++) {

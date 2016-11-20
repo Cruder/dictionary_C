@@ -18,6 +18,12 @@
    return createMetadata(filename);
  }
 
+ /**
+  * \fn Dictionary *emptyDictionary()
+  *
+  * \brief Init a Dictionary struct with default values
+  * \return Dictionary pointer
+  */
 Dictionary *emptyDictionary() {
   Dictionary *d = malloc(sizeof(Dictionary));
   d->metadata = NULL;
@@ -43,6 +49,12 @@ FILE* openDictionaryFile(const char *filename, const char *rights) {
   return file;
 }
 
+/**
+ * \fn void freeDictionary(Dictionary *dico)
+ * \param dico Dictionary pointer
+ *
+ * \brief Free a Dictionary struct
+ */
 void freeDictionary(Dictionary *dico) {
   freeMetadata(dico->metadata);
   dico->metadata = NULL;
@@ -56,6 +68,13 @@ void freeDictionary(Dictionary *dico) {
   dico = NULL;
 }
 
+/**
+ * \fn Dictionary* selectDictionary(const char *filename)
+ * \param filename String corresponding to the name of the file to select
+ *
+ * \brief Load a dictionary
+ * \return Dictionary* pointer to the Dictionary
+ */
 Dictionary* selectDictionary(const char *filename) {
   Dictionary *dico;
   dico = emptyDictionary();
