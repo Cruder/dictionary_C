@@ -44,7 +44,7 @@ void mainMenu() {
         menu();
         break;
       case 2:
-        printf("create empty\n");
+        menuCreateDictionary();
         break;
       case 3:
         printf("create full\n");
@@ -84,4 +84,22 @@ void menu() {
         break;
     }
   } while(choice != 0);
+}
+
+/**
+ * \fn void menuCreateDictionary()
+ * \brief Function to help the user creating a dictionary
+ *
+ */
+void menuCreateDictionary() {
+  char *filename;
+  printf("Dictionary filename: ");
+  filename = malloc(sizeof(char) * 255);
+  getString(255, filename);
+  if(createDictionary(filename)) {
+    printf("Dictionary %s has been created.\n", filename);
+  } else {
+    printf("An error as occured when creating dictionary %s.\n", filename);
+  }
+  free(filename);
 }

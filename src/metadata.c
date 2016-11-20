@@ -1,21 +1,26 @@
-#include "dictionary.h"
+#include "metadata.h"
+#include <stdlib.h>
 #include <string.h>
 
 /**
- * \fn bool createDictionary(const char *filename)
+ * \fn bool createMetadata(const char *filename)
  * \param filename String corresponding to the name of the file to create
  *
- * \brief Function for creating an empty dictionary file
+ * \brief Function for creating a default metadata file
  * \return Boolean of success or not
  */
-bool createDictionary(const char *filename) {
-  FILE *file = openDictionaryFile(filename, "w");
-  if(!file) {
+bool createMetadata(const char *filename) {
+  FILE *file = OpenMetadataFile(filename, "w");
+  if (!file) {
     return false;
   }
-  fprintf(file, "=== DICTIONARY TYPE ===\n");
+  fprintf(file, "# dictionary\n");
+  fprintf(file, "# length: 0\n");
+  for(char i = 0; i < 26; ++i) {
+    fprintf(file, "# %c_start: -1\n", 'a' + i);
+  }
   fclose(file);
-  return createMetadata(filename);
+  return true;
 }
 
 /**
@@ -23,12 +28,12 @@ bool createDictionary(const char *filename) {
  * \param filename String corresponding to the name of the file to open
  * \param rights String with open mode of the file
  *
- * \brief Function for opening a dictionary file
+ * \brief Function for opening a metadata file
  * \return FILE* pointer to the file, NULL if failure
  */
-FILE* openDictionaryFile(const char *filename, const char *rights) {
+FILE* OpenMetadataFile(const char *filename, const char *rights) {
   char *filename_ext = malloc(strlen(filename) + 32);
-  sprintf(filename_ext, "resources/dictionaries/%s.dic", filename);
+  sprintf(filename_ext, "resources/dictionaries/.%s.mda", filename);
   FILE *file = fopen(filename_ext, rights);
   free(filename_ext);
   filename_ext = NULL;

@@ -7,10 +7,15 @@
   #define clear() system("clear")
 #endif
 
+#include "metadata.h"
+#include "input.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
-#include "input.h"
+bool createDictionary(const char *filename);
+FILE* openDictionaryFile(const char *filename, const char *rights);
 
 #endif //__DICTIONARY_H__
