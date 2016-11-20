@@ -1,8 +1,14 @@
 #include "metadata.h"
-
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * \fn bool createMetadata(const char *filename)
+ * \param filename String corresponding to the name of the file to create
+ *
+ * \brief Function for creating a default metadata file
+ * \return Boolean of success or not
+ */
 bool createMetadata(const char *filename) {
   FILE *file = OpenMetadataFile(filename, "w");
   if (!file) {
@@ -17,6 +23,14 @@ bool createMetadata(const char *filename) {
   return true;
 }
 
+/**
+ * \fn FILE* openDictionaryFile(const char *filename, const char *rights)
+ * \param filename String corresponding to the name of the file to open
+ * \param rights String with open mode of the file
+ *
+ * \brief Function for opening a metadata file
+ * \return FILE* pointer to the file, NULL if failure
+ */
 FILE* OpenMetadataFile(const char *filename, const char *rights) {
   char *filename_ext = malloc(strlen(filename) + 32);
   sprintf(filename_ext, "resources/dictionaries/.%s.mda", filename);
