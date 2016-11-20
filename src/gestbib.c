@@ -23,7 +23,7 @@ void printMenu() {
   printf("\n\n--- Dictionary ---\n\n"
          "\t1. Add a word\n"
          "\t2. Search a word\n"
-         "\t0. Return to Dictionnries management\n\n");
+         "\t0. Return to Dictionaries management\n\n");
 }
 
 /**
@@ -38,10 +38,9 @@ void mainMenu() {
     do {
       printf("Your choice: ");
     } while(!getIntRange(&choice, 0, 4));
-
     switch (choice) {
       case 1:
-        menu();
+        menu(selectDictionary("test"));
         break;
       case 2:
         menuCreateDictionary();
@@ -64,7 +63,7 @@ void mainMenu() {
  * \brief Function for guide user into the second menu
  *
  */
-void menu() {
+void menu(Dictionary *dico) {
   int choice;
   do {
     printMenu();
@@ -74,12 +73,13 @@ void menu() {
 
     switch (choice) {
       case 1:
-        printf("Add a word\n");
+        printf("Add a word to dico %s\n", dico->filename);
         break;
       case 2:
-        printf("Search a word\n");
+        printf("Search a word to dico %s\n", dico->filename);
         break;
       case 0:
+        freeDictionary(dico);
         clear();
         break;
     }

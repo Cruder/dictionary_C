@@ -8,14 +8,28 @@
  * \brief Function for creating an empty dictionary file
  * \return Boolean of success or not
  */
-bool createDictionary(const char *filename) {
-  FILE *file = openDictionaryFile(filename, "w");
-  if(!file) {
-    return false;
-  }
-  fprintf(file, "=== DICTIONARY TYPE ===\n");
-  fclose(file);
-  return createMetadata(filename);
+ bool createDictionary(const char *filename) {
+   FILE *file = openDictionaryFile(filename, "w");
+   if(!file) {
+     return false;
+   }
+   fprintf(file, "=== DICTIONARY TYPE ===\n");
+   fclose(file);
+   return createMetadata(filename);
+ }
+
+ /**
+  * \fn Dictionary *emptyDictionary()
+  *
+  * \brief Init a Dictionary struct with default values
+  * \return Dictionary pointer
+  */
+Dictionary *emptyDictionary() {
+  Dictionary *d = malloc(sizeof(Dictionary));
+  d->metadata = NULL;
+  d->file = NULL;
+  d->filename = NULL;
+  return d;
 }
 
 /**
@@ -33,4 +47,40 @@ FILE* openDictionaryFile(const char *filename, const char *rights) {
   free(filename_ext);
   filename_ext = NULL;
   return file;
+}
+
+/**
+ * \fn void freeDictionary(Dictionary *dico)
+ * \param dico Dictionary pointer
+ *
+ * \brief Free a Dictionary struct
+ */
+void freeDictionary(Dictionary *dico) {
+  freeMetadata(dico->metadata);
+  dico->metadata = NULL;
+  if(dico->file) {
+    fclose(dico->file);
+  }
+  dico->file = NULL;
+  free(dico->filename);
+  dico->filename = NULL;
+  free(dico);
+  dico = NULL;
+}
+
+/**
+ * \fn Dictionary* selectDictionary(const char *filename)
+ * \param filename String corresponding to the name of the file to select
+ *
+ * \brief Load a dictionary
+ * \return Dictionary* pointer to the Dictionary
+ */
+Dictionary* selectDictionary(const char *filename) {
+  Dictionary *dico;
+  dico = emptyDictionary();
+  dico->filename = malloc(sizeof(char) * (strlen(filename) + 1));
+  strcpy(dico->filename, filename);
+  dico->metadata = loadMetadata(filename);
+  displayMetadata(dico->metadata);
+  return dico;
 }
