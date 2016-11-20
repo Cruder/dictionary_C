@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+Metadata *emptyMetadata() {
+  Metadata *m = malloc(sizeof(Metadata));
+  m->file = NULL;
+  return m;
+}
+
 /**
  * \fn bool createMetadata(const char *filename)
  * \param filename String corresponding to the name of the file to create
@@ -24,7 +30,7 @@ bool createMetadata(const char *filename) {
 }
 
 /**
- * \fn FILE* openDictionaryFile(const char *filename, const char *rights)
+ * \fn FILE* OpenMetadataFile(const char *filename, const char *rights)
  * \param filename String corresponding to the name of the file to open
  * \param rights String with open mode of the file
  *
@@ -38,4 +44,36 @@ FILE* OpenMetadataFile(const char *filename, const char *rights) {
   free(filename_ext);
   filename_ext = NULL;
   return file;
+}
+
+
+Metadata *loadMetadata(const char *filename) {
+  Metadata *m = emptyMetadata();
+  m->file = OpenMetadataFile(filename, "r");
+  fscanf(m->file, "# dictionary\n");
+  fscanf(m->file, "# length: %zu\n", &m->length);
+  for(size_t i = 0; i < 26; ++i) {
+    char empty;
+    fscanf(m->file, "# %c_start: %d\n", &empty, &m->letters[i]);
+  }
+  fclose(m->file);
+  m->file = NULL;
+  return m;
+}
+
+void freeMetadata(Metadata *m) {
+  if(m->file) {
+    fclose(m->file);
+    m->file = NULL;
+  }
+  free(m);
+  m = NULL;
+}
+
+void displayMetadata(const Metadata *m) {
+  printf("length: %zu\n", m->length);
+  for (int i = 0; i < 26; i++) {
+    printf("%c_start: %d\n", 'a' + i, m->letters[i]);
+  }
+  printf("\n");
 }
