@@ -11,6 +11,7 @@ dependencies:
     - sudo apt-get install cmake -y
     - sudo apt-get install check -y
     - sudo apt-get install libsubunit-dev subunit -y
+    - sudo apt-get install clang -y
     - cmake .
     - make
 
