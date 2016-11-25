@@ -9,11 +9,13 @@
 
 #include "input.h"
 #include "metadata.h"
+#include "gestmemory.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -29,5 +31,8 @@ FILE* openDictionaryFile(const char *filename, const char *rights);
 void freeDictionary(Dictionary *dico);
 Dictionary* selectDictionary();
 bool checkDictionaryPath();
+char **listDictionaries(char *dirname, size_t *count);
+ssize_t countDictionaries(char *dirname);
+void displayDictionaries(char *dirname);
 
 #endif //__DICTIONARY_H__
