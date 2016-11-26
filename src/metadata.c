@@ -22,7 +22,7 @@ Metadata *emptyMetadata() {
  * \return Boolean of success or not
  */
 bool createMetadata(const char *filename) {
-  FILE *file = (filename, "w");
+  FILE *file = openMetadataFile(filename, "w");
   if (!file) {
     return false;
   }

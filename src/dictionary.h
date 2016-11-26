@@ -14,7 +14,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-
+#include <sys/stat.h>
+#include <sys/types.h>
 
 typedef struct {
   Metadata *metadata;
@@ -27,5 +28,6 @@ bool createDictionary(const char *filename);
 FILE* openDictionaryFile(const char *filename, const char *rights);
 void freeDictionary(Dictionary *dico);
 Dictionary* selectDictionary();
+bool checkDictionaryPath();
 
 #endif //__DICTIONARY_H__

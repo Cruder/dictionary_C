@@ -9,6 +9,9 @@
  * \return Boolean of success or not
  */
  bool createDictionary(const char *filename) {
+   if(!checkDictionaryPath()) {
+     return false;
+   }
    FILE *file = openDictionaryFile(filename, "w");
    if(!file) {
      return false;
@@ -83,4 +86,25 @@ Dictionary* selectDictionary(const char *filename) {
   dico->metadata = loadMetadata(filename);
   displayMetadata(dico->metadata);
   return dico;
+}
+
+/**
+ * \fn bool checkDictionaryPath()
+ *
+ * \brief Check path 'resources/dictionaries'. Create folders if they don't exist
+ * \return Boolean of success or not
+ */
+bool checkDictionaryPath() {
+  struct stat st = {0};
+  if (stat("resources", &st) == -1) {
+    if(mkdir("resources", 0777) != 0) {
+      return false;
+    }
+  }
+  if (stat("resources/dictionaries", &st) == -1) {
+    if(mkdir("resources/dictionaries", 0777) != 0) {
+      return false;
+    }
+  }
+  return true;
 }
