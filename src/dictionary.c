@@ -114,7 +114,7 @@ bool checkDictionaryPath() {
 
 /*
  * \fn ssize_t countDictionaries(char *dirname)
- * \params dirname String corresponding to the name of the directory
+ * \param dirname String corresponding to the name of the directory
  *
  * \brief Count dictionaries on a directory
  * \return -1 if error or the count of dictionaries found
@@ -140,17 +140,19 @@ ssize_t countDictionaries(char *dirname) {
 }
 
 /**
- * \fn char **listDictionaries(char *dirname)
- * \params dirname String corresponding to the name of the directory
+ * \fn char **listDictionaries(char *dirname, ssize_t *count)
+ * \param dirname String corresponding to the name of the directory
+ * \param count *ssize_t corresponding to pointer of dictionnaries count
  *
  * \brief List all dictionnaries on a directory
  * \return NULL if error or the count of dictionaries found
  */
 char **listDictionaries(char *dirname, size_t *count) {
-  *count = countDictionaries(dirname);
-  if(*count == -1) {
+  ssize_t dic_count = countDictionaries(dirname);
+  if(dic_count == -1) {
     return NULL;
   }
+  *count = (size_t)dic_count;
   char **dictionaries = mallocBiChar(*count, 255);
   DIR *dir = opendir(dirname);
   struct dirent *ent;
@@ -169,23 +171,23 @@ char **listDictionaries(char *dirname, size_t *count) {
     freeBiChar(dictionaries, *count);
     return NULL;
   }
+
+  for(size_t i = 0; i < *count; ++i) {
+    dictionaries[i][strlen(dictionaries[i]) - 4] = '\0';
+  }
   return dictionaries;
 }
 
 /**
- * \fn void displayDictionaries(char *dirname)
+ * \fn void displayDictionaries(char **dictionaries, size_t count)
+ * \param dictionaries The list of all dictionaries
+ * \param count The count of dictionaries
  *
  * \brief List all dictionnaries on a directory
  */
-void displayDictionaries(char *dirname) {
-  size_t count;
-  char **dicos = listDictionaries("resources/dictionaries", &count);
-  for(size_t i = 0; i < count; ++i) {
-    dicos[i][strlen(dicos[i]) - 4] = '\0';
-  }
+void displayDictionaries(char **dictionaries, size_t count) {
   printf("Dictionaries: \n");
   for(size_t i = 0; i < count; ++i) {
-    printf("\t%zu. %s\n", i, dicos[i]);
+    printf("\t%zu. %s\n", i + 1, dictionaries[i]);
   }
-  freeBiChar(dicos, count);
 }

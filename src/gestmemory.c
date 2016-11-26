@@ -3,8 +3,8 @@
 
 /**
  * \fn char **mallocBiChar(size_t x, size_t y)
- * \params x The 1st dimentional size
- * \params y The 2nd dimentional size
+ * \param x The 1st dimentional size
+ * \param y The 2nd dimentional size
  *
  * \brief Allocate a new bi-dimentional array
  * \return NULL if error or a bi-dimentional array
@@ -26,8 +26,8 @@ char **mallocBiChar(size_t x, size_t y) {
 
 /**
  * \fn void freeBiChar(char **value, size_t x)
- * \params value The bi-dimentional array
- * \params x The size of the bi-dimentional array
+ * \param value The bi-dimentional array
+ * \param x The size of the bi-dimentional array
  *
  * \brief Free a bi-dimentional char
  */

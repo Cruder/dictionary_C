@@ -33,6 +33,6 @@ Dictionary* selectDictionary();
 bool checkDictionaryPath();
 char **listDictionaries(char *dirname, size_t *count);
 ssize_t countDictionaries(char *dirname);
-void displayDictionaries(char *dirname);
+void displayDictionaries(char **dictionaries, size_t count);
 
 #endif //__DICTIONARY_H__
