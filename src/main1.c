@@ -1,7 +1,7 @@
 #include "gestbib.h"
 
-int main(void) {
+int main(const int argc, const char *argv[]) {
   clear();
   mainMenu();
-  return 0;
+  return EXIT_SUCCESS;
 }

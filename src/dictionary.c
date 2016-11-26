@@ -4,6 +4,13 @@
 #include <string.h>
 #include <dirent.h>
 
+#ifdef _WIN32
+    #define mkdir(path, acl) mkdir(path)
+    #define IFWIN(cmd) /* cmd */
+  #else
+    #define IFWIN(cmd) cmd
+#endif // _WIN32
+
 /**
  * \fn bool createDictionary(const char *filename)
  * \param filename String corresponding to the name of the file to create
@@ -62,7 +69,7 @@ FILE* openDictionaryFile(const char *filename, const char *rights) {
  * \brief Free a Dictionary struct
  */
 void freeDictionary(Dictionary *dico) {
-  freeMetadata(dico->metadata);
+  freeMetadata(&(dico->metadata));
   dico->metadata = NULL;
   if(dico->file) {
     fclose(dico->file);
@@ -125,7 +132,7 @@ ssize_t countDictionaries(char *dirname) {
   struct dirent *ent;
   if (dir) {
     while ((ent = readdir(dir)) != NULL) {
-      if(ent->d_type == DT_REG && strlen(ent->d_name) > 4) {
+      if(IFWIN(ent->d_type == DT_REG &&) strlen(ent->d_name) > 4) {
         char *ext = (ent->d_name + strlen(ent->d_name) - 4);
         if(strcmp(ext, ".dic") == 0) {
           ++count;
@@ -157,12 +164,12 @@ char **listDictionaries(char *dirname, size_t *count) {
   if (dir) {
     size_t cursor = 0;
     while ((ent = readdir(dir)) != NULL) {
-      if(ent->d_type == DT_REG) {
+      IFWIN(if(ent->d_type == DT_REG) {)
         char *ext = (ent->d_name + strlen(ent->d_name) - 4);
         if(strcmp(ext, ".dic") == 0) {
           strcpy(dictionaries[cursor++], ent->d_name);
         }
-      }
+      IFWIN(})
     }
     closedir(dir);
   } else {

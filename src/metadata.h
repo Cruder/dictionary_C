@@ -2,21 +2,33 @@
 #define __METADATA_H__
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
 
-typedef struct {
-  size_t length;
-  int letters[26]; // Position on the document
+/** @struct Metadata
+ *  @brief Structure des métadonnées d'un dictionnaire
+ *  @var Metadata::letters
+ *  Positions de la 1ère lettre des mots (ordre alphabétique)
+ *  @var Metadata::letters::ligne
+ *  Positions de la ligne
+ *  @var Metadata::letters::bytes
+ *  Positions de l'octet, utilisé pour se positionner dans le fichier
+ *  @var Metadata::file
+ *  Fichier des métadonnées
+ */
+ typedef struct Metadata {
+  size_t length; //nombre de lignes/mots
+  struct /*section*/ {
+      /*unsigned*/ int ligne;
+      long bytes;
+  } letters[26]; // Position on the document
   FILE *file;
 } Metadata;
 
-Metadata *emptyMetadata();
+Metadata* emptyMetadata();
 bool createMetadata(const char *filename);
-Metadata *loadMetadata(const char *filename);
+Metadata* loadMetadata(const char *filename);
 FILE* openMetadataFile(const char *filename, const char *rights);
-void freeMetadata(Metadata *m);
+void freeMetadata(Metadata **m);
 void displayMetadata(const Metadata *m);
 
 #endif /* end of include guard: __METADATA_H__ */
