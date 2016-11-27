@@ -31,7 +31,7 @@ void printMenu() {
  * \brief Function for guide user into the main menu
  *
  */
-void mainMenu() {
+void mainMenu(void) {
   int choice;
   do {
     printMainMenu();
@@ -40,7 +40,7 @@ void mainMenu() {
     } while(!getIntRange(&choice, 0, 4));
     switch (choice) {
       case 1:
-        menu(selectDictionary("test"));
+        menuOpenDictionary();
         break;
       case 2:
         menuCreateDictionary();
@@ -56,6 +56,41 @@ void mainMenu() {
         break;
     }
   } while(choice != 0);
+}
+
+void menuOpenDictionary(void) {
+  char *dico = menuSelectDictionary();
+  if(dico != NULL) {
+    menu(selectDictionary(dico));
+    free(dico);
+    dico = NULL;
+  }
+}
+
+char *menuSelectDictionary(void) {
+  size_t count;
+  char **dicos = listDictionaries("resources/dictionaries", &count);
+  if(dicos == NULL) {
+    printf("An error has occured.\n");
+    return NULL;
+  }
+
+  printf("Select a dictionary\n");
+  displayDictionaries(dicos, count);
+  printf("\t0. CANCEL - Back to menu\n");
+  int choice;
+  do {
+    printf("Your choice: ");
+  } while(!getIntRange(&choice, 0, count));
+  if(choice == 0) {
+    freeBiChar(dicos, count);
+    return NULL;
+  }
+
+  char *value = malloc(sizeof(char) * (strlen(dicos[choice - 1]) + 1));
+  strcpy(value, dicos[choice - 1]);
+  freeBiChar(dicos, count);
+  return value;
 }
 
 /**
