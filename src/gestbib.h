@@ -3,10 +3,13 @@
 
 #include "dictionary.h"
 
-void printMainMenu();
-void printMenu();
-void mainMenu();
-void menu();
-void menuCreateDictionary();
+void printMainMenu(void);
+void printMenu(void);
+void mainMenu(void);
+void menuCreateDictionary(void);
+void menuOpenDictionary(void);
+
+void menu(Dictionary *dico);
+char *menuSelectDictionary(void);
 
 #endif //__GESTBIB_H__

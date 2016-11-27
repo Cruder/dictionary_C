@@ -29,7 +29,7 @@ Dictionary *emptyDictionary();
 bool createDictionary(const char *filename);
 FILE* openDictionaryFile(const char *filename, const char *rights);
 void freeDictionary(Dictionary *dico);
-Dictionary* selectDictionary();
+Dictionary* selectDictionary(const char *filename);
 bool checkDictionaryPath();
 char **listDictionaries(char *dirname, size_t *count);
 ssize_t countDictionaries(char *dirname);
