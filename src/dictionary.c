@@ -202,11 +202,6 @@ void displayDictionaries(char *dirname) {
   freeBiChar(dicos, count);
 }
 
-/**
- * \brief Ajoute des mots au dictionnaire
- * \var words tableau de string de mot à ajouter au dictionnaire, et trié par ordre alphabétique
- * \return false if error, true if success
- */
  /*
  int main(int argc, char const *argv[]) {
   //////////////////////////////////////////////////////////////////////////////
@@ -250,22 +245,12 @@ void displayDictionaries(char *dirname) {
   return 0;
 }
  */
-bool addAllWords(const Dictionary *dic, const char *words[], const unsigned int size) {
+bool addAllWords_byDecal(const Dictionary *dic, const char *words[], const unsigned int size) {
     if((dic == NULL) || (words == NULL) || (size < 0))
         return false;
     else if(size == 0)
         return true; //rien à faire
     else {
-        /*static char *tmpname = tmpnam(NULL); //nom de fichier temporaire (et unique en principe)
-        clear_error();
-        FILE *tmpwork = fopen(tmpname, "w");
-        if(tmpwork == NULL) {
-            perror("add words");
-            return false;
-        }
-        fclose(tmpwork);
-        remove(tmpname);
-        */
         char *buf = malloc(size*WORD_MAXLENGTH+size); // tableau pour stocker les mots durant l'insertion
         if(buf == NULL) {
             fprintf(stderr, "add words -> malloc : error memory allocation\n");
@@ -311,6 +296,91 @@ bool addAllWords(const Dictionary *dic, const char *words[], const unsigned int 
         }
     }
 }
+
+static inline char* addAllWords_getTmpName() {
+    static char sos[] = "dic_tempfile_.dic.tmp";
+    //static char buffer[L_tmpnam];
+    //char name[] = tmpnam(buffer);
+    char *name = tmpnam(NULL); //nom de fichier temporaire (et unique en principe)
+    // n'utilisa pas mkstemp() car ouvre en mode binaire ...
+    return (name == NULL) ? sos : name;
+}
+
+bool addAllWords_byCopy(const Dictionary *dic, const char *words[], const unsigned int size) {
+    if((dic == NULL) || (words == NULL) || (size < 0))
+        return false;
+    else if(size == 0)
+        return true; //rien à faire
+    else {
+        const char *tmpname = addAllWords_getTmpName();
+        clear_error();
+        FILE *tmpwork = fopen(tmpname, "w+"); //on créer/ouvre en lecture & écriture et vide le fichier (si existe)
+        if(tmpwork == NULL) {
+            perror("add words");
+            return false;
+        } else {
+            unsigned int i, copied=0;
+            char temp[WORD_MAXLENGTH + 1] = {'\0'};
+            rewind(dic->file);
+            long pos_unchanged = ftell(dic->file); // sécurité, récupère position début
+            long pos;
+            bool continu;
+            int res;
+            for(i=0 ; i < size ; i++) { // pour chaque mot à insérer
+                /* on se place au bonne endroit */
+                continu = true;
+                while(continu) { //tant que mot à insérer "plus petit" que mot dans fichier
+                    pos = ftell(dic->file); //sav pos
+                    if(fgets(temp, sizeof(temp), dic->file) == NULL) { //vérifie si une erreur se produit
+                        fprintf(stderr, "Error on get content of .dic\n");
+                        return false;
+                    } else {
+                        res = strcasecmp(words[i], temp);
+                        if(res >= 0) //si mot plus grand ou égal
+                            continu = false;
+                        else {
+                            // amélioration: on copie pas le début du fichier qui reste inchangé (cas du 1er mot)
+                            if(copied > 0)
+                                fputs(temp, tmpwork);
+                            else
+                                pos_unchanged = pos;
+                        }
+                    }
+                }
+                if(res == 0)
+                    continue; /// le mot existe déjà, on passe donc au prochain (boucle for)
+                /* le mot est trouvé, il faut insérer le nouveau mot */
+                fputs(words[i], tmpwork);
+                fputc('\n', tmpwork);
+                copied++;
+            }
+            if(copied > 0) { // amélioration: si aucun mot de rajouté, alors cela ne sert à rien de recopier
+                int tmp;
+                /* puis on fini de recopié tout le reste du fichier */
+                while((tmp=fgetc(dic->file)) != EOF)
+                    fputc(tmp, tmpwork);
+                /* puis on recopie les changements dans fichier/dico */
+                rewind(tmpwork);
+                fseek(dic->file, pos_unchanged, SEEK_SET);
+                while((tmp=fgetc(tmpwork)) != EOF)
+                    fputc(tmp, dic->file);
+            }
+            fclose(tmpwork);
+            remove(tmpname);
+            return true;
+        }
+    }
+}
+
+/**
+ * \brief Ajoute des mots au dictionnaire
+ * \var words tableau de string de mot à ajouter au dictionnaire, et trié par ordre alphabétique
+ * \return false if error, true if success
+ */
+ bool addAllWords(const Dictionary *dic, const char *words[], const unsigned int size) {
+     return addAllWords_byCopy(dic, words, size);
+     //return addAllWords_byDecal(dic, words, size);
+ }
 
 /**
  * \brief Ajoute un mot au dictionnaire
