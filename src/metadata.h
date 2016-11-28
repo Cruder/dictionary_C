@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <inttypes.h>
 
 /** @struct Metadata
  *  @brief Structure des métadonnées d'un dictionnaire
@@ -30,5 +31,6 @@ Metadata* loadMetadata(const char *filename);
 FILE* openMetadataFile(const char *filename, const char *rights);
 void freeMetadata(Metadata **m);
 void displayMetadata(const Metadata *m);
+void updateWordInfo(Metadata *meta, const uint8_t letter, const size_t len);
 
 #endif /* end of include guard: __METADATA_H__ */

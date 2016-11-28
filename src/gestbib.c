@@ -1,4 +1,5 @@
 #include "gestbib.h"
+#include "input.h"
 
 /**
  * \fn void printMainMenu()

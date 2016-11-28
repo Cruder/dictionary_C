@@ -9,7 +9,7 @@
  * \brief Allocate a new bi-dimentional array
  * \return NULL if error or a bi-dimentional array
  */
-char **mallocBiChar(size_t x, size_t y) {
+char **mallocBiChar(const size_t x, const size_t y) {
   char **value = (char **)malloc(sizeof(char *) * x);
   if(value == NULL) {
     return NULL;

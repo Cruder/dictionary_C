@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-char **mallocBiChar(size_t x, size_t y);
+char **mallocBiChar(const size_t x, const size_t y);
 void freeBiChar(char **value, size_t x);
 
 #endif /* end of include guard: __MEMORY_H__ */

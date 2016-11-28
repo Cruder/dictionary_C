@@ -112,3 +112,18 @@ void displayMetadata(const Metadata *m) {
   }
   printf("\n");
 }
+
+/**
+ * \brief Met à jour les metadonnées lors de l'ajout ou suppression d'un mot
+ *
+ */
+void updateWordInfo(Metadata *meta, const uint8_t letter, const size_t len) {
+    meta->letters[letter].ligne++;
+    uint8_t i;
+    for(i=letter ; i < 26 ; i++) {
+        meta->letters[i].bytes += len + 1;
+        if(meta->letters[i].ligne < 0)
+            meta->letters[i].ligne = 0;
+        meta->letters[i].ligne++;
+    }
+}
