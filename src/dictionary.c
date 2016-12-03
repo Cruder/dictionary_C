@@ -194,6 +194,12 @@ void displayDictionaries(char **dictionaries, size_t count) {
     }
 }
 
+/**
+ * \fn long positionForWord(Dictionary *dic, char *word)
+ * \param dic The dictionary
+ * \param word The word to place in the dictionary
+ * \return The position where to put the word, -1 in case of errors
+ */
 long positionForWord(Dictionary *dic, char *word) {
     if(dic == NULL || dic->file == NULL) {
         fprintf(stderr, "An error has occured\n");
@@ -221,6 +227,13 @@ long positionForWord(Dictionary *dic, char *word) {
     }
 }
 
+/**
+ * \fn int addWordFile(FILE *file, char *word, const long position)
+ * \param file A file
+ * \param word Word to add in the file
+ * \param position Where put this word on the file
+ * \return 0 for success
+ */
 int addWordFile(FILE *file, char *word, const long position) {
     size_t strlength = strlen(word);
 
