@@ -72,12 +72,6 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
 # Windows shortcuts
 *.lnk
 
@@ -113,12 +107,6 @@ CTestTestfile.cmake
 *.gch
 *.pch
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
 # Shared objects (inc. Windows DLLs)
 *.dll
 *.so
@@ -139,21 +127,8 @@ CTestTestfile.cmake
 *.idb
 *.pdb
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
 
 # TortoiseGit.gitignore
 ####################
 # Project-level settings
 /.tgitconfig
-
-
-# SVN.gitignore
-####################
-.svn/
