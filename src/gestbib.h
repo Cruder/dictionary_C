@@ -11,5 +11,6 @@ void menuOpenDictionary(void);
 
 void menu(Dictionary *dico);
 char *menuSelectDictionary(void);
+void menuAddDictionaryWord(Dictionary *dico);
 
 #endif //__GESTBIB_H__
