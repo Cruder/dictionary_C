@@ -8,7 +8,7 @@
 
 typedef struct {
   size_t length;
-  int letters[26]; // Position on the document
+  long letters_pos[26]; // Position on the document
   FILE *file;
 } Metadata;
 
@@ -18,5 +18,7 @@ Metadata *loadMetadata(const char *filename);
 FILE* openMetadataFile(const char *filename, const char *rights);
 void freeMetadata(Metadata *m);
 void displayMetadata(const Metadata *m);
+void saveMetadata(Metadata *m, const char *filename);
+void metadataWordAdded(Metadata *m, const char *filename, char *word);
 
 #endif /* end of include guard: __METADATA_H__ */
