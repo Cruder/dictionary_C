@@ -127,8 +127,7 @@ CTestTestfile.cmake
 *.idb
 *.pdb
 
+Dictionary.cbp
 
-# TortoiseGit.gitignore
-####################
-# Project-level settings
-/.tgitconfig
+resources/dictionaries/*
+!resources/dictionaries/.keep
