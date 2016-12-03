@@ -1,5 +1,7 @@
 #include "dictionary.h"
 #include "gestmemory.h"
+#include "gestorth.h"
+#include "metadata.h"
 
 #include <string.h>
 #include <dirent.h>
@@ -186,8 +188,60 @@ char **listDictionaries(char *dirname, size_t *count) {
  * \brief List all dictionnaries on a directory
  */
 void displayDictionaries(char **dictionaries, size_t count) {
-  printf("Dictionaries: \n");
-  for(size_t i = 0; i < count; ++i) {
-    printf("\t%zu. %s\n", i + 1, dictionaries[i]);
-  }
+    printf("Dictionaries: \n");
+    for(size_t i = 0; i < count; ++i) {
+        printf("\t%zu. %s\n", i + 1, dictionaries[i]);
+    }
+}
+
+long positionForWord(Dictionary *dic, char *word) {
+    if(dic == NULL || dic->file == NULL) {
+        fprintf(stderr, "An error has occured\n");
+        return -1;
+    }
+    long beginfile = dic->metadata->letters_pos[word[0] - 'a'];
+    fseek(dic->file, beginfile, SEEK_SET);
+    while(1) {
+        char *fw = (char *)malloc(sizeof(char) * 255);
+        fscanf(dic->file, "%s\n", fw);
+        int compare = strcmp(word, fw);
+        printf("%s < %s %d\n", word, fw, compare);
+
+        size_t fw_len = strlen(fw);
+        free(fw);
+        if(compare < 0) {
+            fseek(dic->file, -fw_len - 1, SEEK_CUR);
+            return ftell(dic->file);
+        } else if(compare == 0) {
+            fprintf(stderr, "Word %s already exist", word);
+            return -1;
+        } else if(feof(dic->file)) {
+            return ftell(dic->file);
+        }
+    }
+}
+
+int addWordFile(FILE *file, char *word, const long position) {
+    size_t strlength = strlen(word);
+
+    long endfile = 0;
+
+    fseek(file, 0, SEEK_END);
+    endfile = ftell(file);
+
+    fwrite(word, 1, strlength, file);
+    fseek(file, endfile, SEEK_SET);
+    for(long i = endfile; i >= position; --i) {
+        fseek(file, -1, SEEK_CUR);
+        int tmp = fgetc(file);
+        fseek(file, strlength, SEEK_CUR);
+        fputc(tmp, file);
+        fseek(file, i, SEEK_SET);
+    }
+    fseek(file, position, SEEK_SET);
+    printf("%s => %zu", word, strlength);
+    fwrite(word, 1, strlength, file);
+    fputc('\n', file);
+
+    return 0;
 }
