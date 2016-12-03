@@ -141,6 +141,13 @@ void menuCreateDictionary() {
     free(filename);
 }
 
+/**
+ * \fn void menuAddDictionaryWord(Dictionary *dico)
+ * \param dico The dictionary where to put the new word
+ *
+ * \brief Function to display the menu `add a word`
+ *
+ */
 void menuAddDictionaryWord(Dictionary *dico) {
     dico->file = openDictionaryFile(dico->filename, "r+");
 

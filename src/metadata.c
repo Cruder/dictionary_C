@@ -104,6 +104,14 @@ void displayMetadata(const Metadata *m) {
   printf("\n");
 }
 
+/**
+ * \fn void saveMetadata(Metadata *m, const char *filename)
+ * \param m Metadata struct pointer
+ * \param filename The filename to open
+ * \param word The word added to the dictionary
+ *
+ * \brief Update and save the metadata for a word
+ */
 void metadataWordAdded(Metadata *m, const char *filename, char *word) {
     size_t length = strlen(word) + 1; // Word + \n
     size_t begin = (size_t)(word[0] - 'a' + 1);
@@ -115,6 +123,13 @@ void metadataWordAdded(Metadata *m, const char *filename, char *word) {
     saveMetadata(m, filename);
 }
 
+/**
+ * \fn void saveMetadata(Metadata *m, const char *filename)
+ * \param m Metadata struct pointer
+ * \param filename The filename to open
+ *
+ * \brief Save metadata in a file
+ */
 void saveMetadata(Metadata *m, const char *filename) {
   m->file = openMetadataFile(filename, "w");
 
