@@ -1,49 +1,35 @@
+Makefile
+
+cmake_install.cmake
+
+CTestTestfile.cmake
+CMakeCache.txt
 tmp/
+
+bin/*
+!bin/.keep
+
+doc/*
+!doc/.keep
+
+resources/dictionaries/*
+!resources/dictionaries/.keep
+.DS_Store
+
+.idea/
 
 bin/*
 doc/*
 
-!*/.keep
-
 *.cbp
 
-
-
-##########
-# Imports git-ignore officiels
-# https://github.com/github/gitignore
-####################
-
-# Linux.gitignore
-####################
-*~
-
-# temporary files which can be created if a process still has a handle open of a deleted file
-.fuse_hidden*
-
-# KDE directory preferences
-.directory
-
-# Linux trash folder which might appear on any partition or disk
-.Trash-*
-
-# .nfs files are created when an open file is removed but is still being accessed
-.nfs*
-
-
-# macOS.gitignore
-####################
-*.DS_Store
 .AppleDouble
 .LSOverride
 
-# Icon must end with two \r
 Icon
 
-# Thumbnails
 ._*
 
-# Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
 .Spotlight-V100
@@ -52,7 +38,6 @@ Icon
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
-# Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
 Network Trash Folder
@@ -60,24 +45,15 @@ Temporary Items
 .apdisk
 
 
-# Windows.gitignore
-####################
-# Windows image file caches
 Thumbs.db
 ehthumbs.db
 
-# Folder config file
 Desktop.ini
 
-# Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-# Windows shortcuts
 *.lnk
 
-
-# CMake.gitignore
-####################
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
@@ -86,48 +62,19 @@ cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
 
-
-# C.gitignore
-####################
-# Prerequisites
 *.d
 
-# Object files
-*.o
 *.ko
 *.obj
 *.elf
 
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
 *.gch
 *.pch
 
-# Shared objects (inc. Windows DLLs)
 *.dll
 *.so
 *.so.*
 *.dylib
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-Dictionary.cbp
-
-resources/dictionaries/*
-!resources/dictionaries/.keep
+cmake-build-debug/
+lib/Debug/
