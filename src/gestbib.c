@@ -59,6 +59,10 @@ void mainMenu(void) {
     } while(choice != 0);
 }
 
+/**
+ * \fn void menuOpenDictionary(void)
+ * \brief Help the user to open a Dictionary
+ */
 void menuOpenDictionary(void) {
     char *dico = menuSelectDictionary();
     if(dico != NULL) {
@@ -68,6 +72,12 @@ void menuOpenDictionary(void) {
     }
 }
 
+
+/**
+ * \fn char *menuSelectDictionary(void)
+ * \brief Help the user to select a Dictionary
+ * \return Char* the name of a dictionary without extension
+ */
 char *menuSelectDictionary(void) {
     size_t count;
     char **dicos = listDictionaries("resources/dictionaries", &count);
