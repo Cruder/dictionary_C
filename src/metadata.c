@@ -113,7 +113,7 @@ void displayMetadata(const Metadata *m) {
  *
  * \brief Update and save the metadata for a word
  */
-void metadataWordAdded(Metadata *m, const char *filename, char *word) {
+void metadataWordAdded(Metadata *m, char *word) {
     size_t length = strlen(word) + 1; // Word + \n
     size_t begin = (size_t)(word[0] - 'a' + 1);
 
@@ -122,7 +122,6 @@ void metadataWordAdded(Metadata *m, const char *filename, char *word) {
         m->letters[i] += length;
     }
     ++m->length;
-    setMetadata(m, filename);
 }
 
 /**

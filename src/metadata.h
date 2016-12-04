@@ -19,7 +19,7 @@ FILE* openMetadataFile(const char *filename, const char *rights);
 void freeMetadata(Metadata *m);
 void displayMetadata(const Metadata *m);
 bool setMetadata(Metadata *m, const char *filename);
-void metadataWordAdded(Metadata *m, const char *filename, char *word);
+void metadataWordAdded(Metadata *m, char *word);
 int removeMetadata(const char *filename);
 bool metadataArePresent(const char *filename);
 

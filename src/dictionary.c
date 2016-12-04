@@ -1,9 +1,6 @@
 #include "dictionary.h"
-#include "gestmemory.h"
-#include "gestorth.h"
-#include "metadata.h"
+#include "gestrech.h"
 
-#include <string.h>
 #include <dirent.h>
 
 /**
@@ -278,10 +275,13 @@ bool synchronizeMetadata(Dictionary *dico) {
     char c = 'a' - 1;
     dico->metadata->length = 0;
     while (fgets(str, 255, dico->file) && c < 'z') {
-        char letter = tolower(str[0]);
+        char letter = (char)tolower(str[0]);
         if ((letter >= 'a' || letter <= 'z') && letter > c) {
             c = letter;
             dico->metadata->letters[letter - 'a'] = position;
+            for (size_t i = (size_t)letter - 'a' + 1; i < 26; i++) {
+                dico->metadata->letters[i] = position + strlen(str);
+            }
         }
         dico->metadata->length++;
         position = ftell(dico->file);
