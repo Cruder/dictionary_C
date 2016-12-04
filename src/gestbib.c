@@ -166,4 +166,5 @@ void menuAddDictionaryWord(Dictionary *dico) {
 
     free(word);
     fclose(dico->file);
+    dico->file = NULL;
 }

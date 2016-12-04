@@ -141,4 +141,5 @@ void saveMetadata(Metadata *m, const char *filename) {
   fputc('\n', m->file);
 
   fclose(m->file);
+  m->file = NULL;
 }
