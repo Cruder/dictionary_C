@@ -20,8 +20,6 @@ char **readTxtFile(const char *filename, int *count);
 int dictionaryFromFile(const char *filename, const char *dico);
 int dictionaryFromFileEx(Dictionary *dic, char **words, int count, int status);
 int countFileWord(const char *filename);
-char **strSortedMakeUniq(char **strings, int *size);
-void swapChar(char **a, char **b);
-void quickSort(char **array, int start, int end);
+
 
 #endif //__GESTBIB_H__

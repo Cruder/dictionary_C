@@ -8,6 +8,7 @@
 #endif
 
 #include "input.h"
+#include "utils.h"
 #include "metadata.h"
 #include "gestmemory.h"
 

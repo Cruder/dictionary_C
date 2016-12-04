@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <ctype.h>
-#include <string.h>
 
 bool getInt(int *number);
 bool getDouble(double *number);
@@ -16,7 +14,5 @@ bool getIntRange(int *number, int min, int max);
 
 bool isCharRange(char letter, char min, char max);
 bool isIntRange(int number, int min, int max);
-
-char *toLowerCase(char *str);
 
 #endif /* end of include guard: __INPUT_H__ */
