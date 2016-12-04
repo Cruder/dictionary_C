@@ -106,14 +106,12 @@ void menu(Dictionary *dico) {
         do {
             printf("Your choice: ");
         } while(!getIntRange(&choice, 0, 2));
-
         switch (choice) {
             case 1:
-                printf("Add a word to dico %s\n", dico->filename);
                 menuAddDictionaryWord(dico);
                 break;
             case 2:
-                printf("Search a word to dico %s\n", dico->filename);
+                menuSearchWord(dico);
                 break;
             case 0:
                 freeDictionary(dico);
@@ -374,4 +372,28 @@ void menuCreateDictionaryFromFile(void) {
   }
   free(filename);
   free(diconame);
+}
+
+/**
+ * \fn void menuSearchWord(Dictionary *dico)
+ * \param dico Dictionary on which to search a word
+ *
+ * \brief Help the user to search a word into a given dictionary
+ */
+void menuSearchWord(Dictionary *dico) {
+  char *word = malloc(sizeof(char) * 255);
+  printf("Enter a word: ");
+  getString(255, word);
+  if (wordPresent(dico, word) == true) {
+    printf("The word %s exists in the dictionary %s.\n", word, dico->filename);
+  } else {
+    printf("The word %s does not exist in the dictionary %s.\n", word, dico->filename);
+    printf("Do you want to add it ? [y/N]: ");
+    char c;
+    getChar(&c);
+    if (c == 'y') {
+      printf("ADD WORD\n");
+    }
+  }
+  free(word);
 }
