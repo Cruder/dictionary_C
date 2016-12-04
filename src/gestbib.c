@@ -50,7 +50,7 @@ void mainMenu(void) {
                 menuCreateDictionaryFromFile();
                 break;
             case 4:
-                printf("remove\n");
+                menuRemoveDictionary();
                 break;
             case 0:
                 printf("Good bye!\n");
@@ -126,7 +126,7 @@ void menu(Dictionary *dico) {
  * \brief Function to help the user creating a dictionary
  *
  */
-void menuCreateDictionary() {
+void menuCreateDictionary(void) {
     char *filename;
     printf("Dictionary filename: ");
     filename = malloc(sizeof(char) * 255);
@@ -325,4 +325,33 @@ void menuSearchWord(Dictionary *dico) {
     }
   }
   free(word);
+}
+
+/**
+ * \fn void menuRemoveDictionary()
+ * \brief Function to help the user removing a dictionary
+ *
+ */
+void menuRemoveDictionary(void) {
+  size_t count;
+  int choice;
+  char **dictionaries = listDictionaries("resources/dictionaries", &count);
+  displayDictionaries(dictionaries, count);
+  printf("\t0. CANCEL - Back to menu\n");
+  do {
+    printf("Dictionary number to remove: ");
+  } while(!getIntRange(&choice, 0, count));
+  if(choice != 0) {
+    printf("Remove dictionary %s? [y/N] : ", dictionaries[choice - 1]);
+    char c;
+    if(getChar(&c) && (c == 'y' || c == 'Y')) {
+      if(removeDictionary(dictionaries[choice - 1]) == 0) {
+        printf("Dictionary %s has been removed.\n", dictionaries[choice - 1]);
+      } else {
+        printf("An error has occured when removing the dictionary %s\n",
+        dictionaries[choice - 1]);
+      }
+    }
+  }
+  freeBiChar(dictionaries, count);
 }
