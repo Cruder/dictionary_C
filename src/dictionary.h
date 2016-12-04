@@ -20,9 +20,9 @@
 #include <sys/types.h>
 
 typedef struct {
-  Metadata *metadata;
-  FILE *file;
-  char *filename;
+    Metadata *metadata;
+    FILE *file;
+    char *filename;
 } Dictionary;
 
 Dictionary *emptyDictionary();
@@ -34,5 +34,7 @@ bool checkDictionaryPath();
 char **listDictionaries(char *dirname, size_t *count);
 ssize_t countDictionaries(char *dirname);
 void displayDictionaries(char **dictionaries, size_t count);
+long positionForWord(Dictionary* file, char *word);
+int addWordFile(FILE *file, char *word, const long position);
 
 #endif //__DICTIONARY_H__

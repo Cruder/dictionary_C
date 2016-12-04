@@ -29,7 +29,7 @@ bool createMetadata(const char *filename) {
   fprintf(file, "# dictionary\n");
   fprintf(file, "# length: 0\n");
   for(char i = 0; i < 26; ++i) {
-    fprintf(file, "# %c_start: -1\n", 'a' + i);
+    fprintf(file, "# %c_start: 24\n", 'a' + i);
   }
   fclose(file);
   return true;
@@ -67,7 +67,7 @@ Metadata *loadMetadata(const char *filename) {
     fscanf(m->file, "# length: %zu\n", &m->length);
     for(size_t i = 0; i < 26; ++i) {
       char empty;
-      fscanf(m->file, "# %c_start: %d\n", &empty, &m->letters[i]);
+      fscanf(m->file, "# %c_start: %ld\n", &empty, &m->letters[i]);
     }
     fclose(m->file);
     m->file = NULL;
@@ -99,7 +99,47 @@ void freeMetadata(Metadata *m) {
 void displayMetadata(const Metadata *m) {
   printf("length: %zu\n", m->length);
   for (int i = 0; i < 26; i++) {
-    printf("%c_start: %d\n", 'a' + i, m->letters[i]);
+    printf("%c_start: %ld\n", 'a' + i, m->letters[i]);
   }
   printf("\n");
+}
+
+/**
+ * \fn void metadataWordAdded(Metadata *m, const char *filename, char *word)
+ * \param m Metadata struct pointer
+ * \param filename The filename to open
+ * \param word The word added to the dictionary
+ *
+ * \brief Update and save the metadata for a word
+ */
+void metadataWordAdded(Metadata *m, const char *filename, char *word) {
+    size_t length = strlen(word) + 1; // Word + \n
+    size_t begin = (size_t)(word[0] - 'a' + 1);
+
+    for(size_t i = begin; i < 26; ++i) {
+        m->letters[i] += length;
+    }
+    ++m->length;
+    saveMetadata(m, filename);
+}
+
+/**
+ * \fn void saveMetadata(Metadata *m, const char *filename)
+ * \param m Metadata struct pointer
+ * \param filename The filename to open
+ *
+ * \brief Save metadata in a file
+ */
+void saveMetadata(Metadata *m, const char *filename) {
+  m->file = openMetadataFile(filename, "w");
+
+  fprintf(m->file, "# dictionary\n");
+  fprintf(m->file, "# length: %zu\n", m->length);
+  for(char i = 0; i < 26; ++i) {
+    fprintf(m->file, "# %c_start: %ld\n", 'a' + i, m->letters[(int)i]);
+  }
+  fputc('\n', m->file);
+
+  fclose(m->file);
+  m->file = NULL;
 }

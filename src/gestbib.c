@@ -1,4 +1,5 @@
 #include "gestbib.h"
+#include "gestorth.h"
 
 /**
  * \fn void printMainMenu()
@@ -6,12 +7,12 @@
  *
  */
 void printMainMenu() {
-  printf("\n\n*** Dictionaries management ***\n\n"
-         "\t1. Open an existing dictionary\n"
-         "\t2. Create an empty dictionary\n"
-         "\t3. Create a dictionary with a text file\n"
-         "\t4. Remove a dictionary\n"
-         "\t0. Quit\n\n");
+    printf("\n\n*** Dictionaries management ***\n\n"
+                   "\t1. Open an existing dictionary\n"
+                   "\t2. Create an empty dictionary\n"
+                   "\t3. Create a dictionary with a text file\n"
+                   "\t4. Remove a dictionary\n"
+                   "\t0. Quit\n\n");
 }
 
 /**
@@ -20,10 +21,10 @@ void printMainMenu() {
  *
  */
 void printMenu() {
-  printf("\n\n--- Dictionary ---\n\n"
-         "\t1. Add a word\n"
-         "\t2. Search a word\n"
-         "\t0. Return to Dictionaries management\n\n");
+    printf("\n\n--- Dictionary ---\n\n"
+                   "\t1. Add a word\n"
+                   "\t2. Search a word\n"
+                   "\t0. Return to Dictionaries management\n\n");
 }
 
 /**
@@ -32,65 +33,65 @@ void printMenu() {
  *
  */
 void mainMenu(void) {
-  int choice;
-  do {
-    printMainMenu();
+    int choice;
     do {
-      printf("Your choice: ");
-    } while(!getIntRange(&choice, 0, 4));
-    switch (choice) {
-      case 1:
-        menuOpenDictionary();
-        break;
-      case 2:
-        menuCreateDictionary();
-        break;
-      case 3:
-        printf("create full\n");
-        break;
-      case 4:
-        printf("remove\n");
-        break;
-      case 0:
-        printf("Good bye!\n");
-        break;
-    }
-  } while(choice != 0);
+        printMainMenu();
+        do {
+            printf("Your choice: ");
+        } while(!getIntRange(&choice, 0, 4));
+        switch (choice) {
+            case 1:
+                menuOpenDictionary();
+                break;
+            case 2:
+                menuCreateDictionary();
+                break;
+            case 3:
+                printf("create full\n");
+                break;
+            case 4:
+                printf("remove\n");
+                break;
+            case 0:
+                printf("Good bye!\n");
+                break;
+        }
+    } while(choice != 0);
 }
 
 void menuOpenDictionary(void) {
-  char *dico = menuSelectDictionary();
-  if(dico != NULL) {
-    menu(selectDictionary(dico));
-    free(dico);
-    dico = NULL;
-  }
+    char *dico = menuSelectDictionary();
+    if(dico != NULL) {
+        menu(selectDictionary(dico));
+        free(dico);
+        dico = NULL;
+    }
 }
 
 char *menuSelectDictionary(void) {
-  size_t count;
-  char **dicos = listDictionaries("resources/dictionaries", &count);
-  if(dicos == NULL) {
-    printf("An error has occured.\n");
-    return NULL;
-  }
+    size_t count;
+    char **dicos = listDictionaries("resources/dictionaries", &count);
+    if(dicos == NULL) {
+        printf("An error has occured.\n");
+        return NULL;
+    }
 
-  printf("Select a dictionary\n");
-  displayDictionaries(dicos, count);
-  printf("\t0. CANCEL - Back to menu\n");
-  int choice;
-  do {
-    printf("Your choice: ");
-  } while(!getIntRange(&choice, 0, count));
-  if(choice == 0) {
+    printf("Select a dictionary\n");
+    displayDictionaries(dicos, count);
+    printf("\t0. CANCEL - Back to menu\n");
+    int choice;
+    do {
+        printf("Your choice: ");
+    } while(!getIntRange(&choice, 0, count));
+    if(choice == 0) {
+        freeBiChar(dicos, count);
+        return NULL;
+    }
+
+    char *value = malloc(sizeof(char) * (strlen(dicos[choice - 1]) + 1));
+    strcpy(value, dicos[choice - 1]);
     freeBiChar(dicos, count);
-    return NULL;
-  }
-
-  char *value = malloc(sizeof(char) * (strlen(dicos[choice - 1]) + 1));
-  strcpy(value, dicos[choice - 1]);
-  freeBiChar(dicos, count);
-  return value;
+    return value;
 }
 
 /**
@@ -99,26 +100,27 @@ char *menuSelectDictionary(void) {
  *
  */
 void menu(Dictionary *dico) {
-  int choice;
-  do {
-    printMenu();
+    int choice;
     do {
-      printf("Your choice: ");
-    } while(!getIntRange(&choice, 0, 2));
+        printMenu();
+        do {
+            printf("Your choice: ");
+        } while(!getIntRange(&choice, 0, 2));
 
-    switch (choice) {
-      case 1:
-        printf("Add a word to dico %s\n", dico->filename);
-        break;
-      case 2:
-        printf("Search a word to dico %s\n", dico->filename);
-        break;
-      case 0:
-        freeDictionary(dico);
-        clear();
-        break;
-    }
-  } while(choice != 0);
+        switch (choice) {
+            case 1:
+                printf("Add a word to dico %s\n", dico->filename);
+                menuAddDictionaryWord(dico);
+                break;
+            case 2:
+                printf("Search a word to dico %s\n", dico->filename);
+                break;
+            case 0:
+                freeDictionary(dico);
+                clear();
+                break;
+        }
+    } while(choice != 0);
 }
 
 /**
@@ -127,14 +129,42 @@ void menu(Dictionary *dico) {
  *
  */
 void menuCreateDictionary() {
-  char *filename;
-  printf("Dictionary filename: ");
-  filename = malloc(sizeof(char) * 255);
-  getString(255, filename);
-  if(createDictionary(filename)) {
-    printf("Dictionary %s has been created.\n", filename);
-  } else {
-    printf("An error as occured when creating dictionary %s.\n", filename);
-  }
-  free(filename);
+    char *filename;
+    printf("Dictionary filename: ");
+    filename = malloc(sizeof(char) * 255);
+    getString(255, filename);
+    if(createDictionary(filename)) {
+        printf("Dictionary %s has been created.\n", filename);
+    } else {
+        printf("An error as occured when creating dictionary %s.\n", filename);
+    }
+    free(filename);
+}
+
+/**
+ * \fn void menuAddDictionaryWord(Dictionary *dico)
+ * \param dico The dictionary where to put the new word
+ *
+ * \brief Function to display the menu `add a word`
+ *
+ */
+void menuAddDictionaryWord(Dictionary *dico) {
+    dico->file = openDictionaryFile(dico->filename, "r+");
+
+    char *word = (char *) malloc(sizeof(char) * 255);
+    do {
+        printf("Enter a word: ");
+    } while (!getString(255, word));
+
+    long pos = positionForWord(dico, word);
+    if (pos == -1) {
+        return;
+    }
+    printf("pos -> %ld\n", pos);
+    addWordFile(dico->file, word, pos);
+    metadataWordAdded(dico->metadata, dico->filename, word);
+
+    free(word);
+    fclose(dico->file);
+    dico->file = NULL;
 }
