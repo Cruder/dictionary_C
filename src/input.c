@@ -8,14 +8,14 @@
  * \return Boolean of success or not
  */
 bool getInt(int *number) {
-  char line[256];
-  fseek(stdin, 0, SEEK_END);
-  if (fgets(line, sizeof(line), stdin)) {
-    if (1 == sscanf(line, "%d", number)) {
-      return true;
+    char line[256];
+    fseek(stdin, 0, SEEK_END);
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%d", number)) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 /**
@@ -26,14 +26,14 @@ bool getInt(int *number) {
  * \return Boolean of success or not
  */
 bool getDouble(double *number) {
-  char line[256];
-  fseek(stdin, 0, SEEK_END);
-  if (fgets(line, sizeof(line), stdin)) {
-    if (1 == sscanf(line, "%lf", number)) {
-      return true;
+    char line[256];
+    fseek(stdin, 0, SEEK_END);
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%lf", number)) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 /**
@@ -44,14 +44,14 @@ bool getDouble(double *number) {
  * \return Boolean of success or not
  */
 bool getChar(char *letter) {
-  char line[2];
-  fseek(stdin, 0, SEEK_END);
-  if (fgets(line, sizeof(line), stdin)) {
-    if (1 == sscanf(line, "%c", letter)) {
-      return true;
+    char line[2];
+    fseek(stdin, 0, SEEK_END);
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%c", letter)) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 /**
@@ -63,14 +63,14 @@ bool getChar(char *letter) {
  * \return Boolean of success or not
  */
 bool getString(size_t size, char *str) {
-  char line[size + 1];
-  fseek(stdin, 0, SEEK_END);
-  if (fgets(line, sizeof(line), stdin)) {
-    if (1 == sscanf(line, "%[^\n]s", str)) {
-      return true;
+    char line[size + 1];
+    fseek(stdin, 0, SEEK_END);
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%[^\n]s", str)) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 /**
@@ -83,17 +83,17 @@ bool getString(size_t size, char *str) {
  * \return Boolean of success or not
  */
 bool getCharRange(char *letter, char min, char max) {
-  char line[2];
-  fseek(stdin, 0, SEEK_END);
-  if (fgets(line, sizeof(line), stdin)) {
-    if (1 == sscanf(line, "%c", letter)) {
-      if (*letter < min || *letter > max) {
-        return false;
-      }
-      return true;
+    char line[2];
+    fseek(stdin, 0, SEEK_END);
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%c", letter)) {
+            if (*letter < min || *letter > max) {
+                return false;
+            }
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 /**
@@ -106,17 +106,17 @@ bool getCharRange(char *letter, char min, char max) {
  * \return Boolean of success or not
  */
 bool getIntRange(int *number, int min, int max) {
-  char line[256];
-  fseek(stdin, 0, SEEK_END);
-  if (fgets(line, sizeof(line), stdin)) {
-    if (1 == sscanf(line, "%d", number)) {
-      if (*number < min || *number > max) {
-        return false;
-      }
-      return true;
+    char line[256];
+    fseek(stdin, 0, SEEK_END);
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%d", number)) {
+            if (*number < min || *number > max) {
+                return false;
+            }
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 /**
@@ -129,10 +129,10 @@ bool getIntRange(int *number, int min, int max) {
  * \return Boolean of success or not
  */
 bool isCharRange(char letter, char min, char max) {
-  if (letter < min || letter > max) {
-    return false;
-  }
-  return true;
+    if (letter < min || letter > max) {
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -145,8 +145,8 @@ bool isCharRange(char letter, char min, char max) {
  * \return Boolean of success or not
  */
 bool isIntRange(int number, int min, int max) {
-  if (number < min || number > max) {
-    return false;
-  }
-  return true;
+    if (number < min || number > max) {
+        return false;
+    }
+    return true;
 }
