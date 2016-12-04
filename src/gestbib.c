@@ -1,5 +1,6 @@
 #include "gestbib.h"
 #include "gestorth.h"
+#include "gestrech.h"
 
 /**
  * \fn void printMainMenu()
@@ -168,9 +169,9 @@ void menuAddDictionaryWord(Dictionary *dico) {
     if (pos == -1) {
         return;
     }
-    printf("pos -> %ld\n", pos);
     addWordFile(dico->file, word, pos);
-    metadataWordAdded(dico->metadata, dico->filename, word);
+    metadataWordAdded(dico->metadata, word);
+    setMetadata(dico->metadata, dico->filename);
 
     free(word);
     fclose(dico->file);
