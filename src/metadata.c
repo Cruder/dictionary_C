@@ -1,6 +1,7 @@
 #include "metadata.h"
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 
 /**
  * \fn Metadata *emptyMetadata()
@@ -146,4 +147,32 @@ bool setMetadata(Metadata *m, const char *filename) {
   fclose(m->file);
   m->file = NULL;
   return true;
+}
+
+int removeMetadata(const char *filename) {
+  char *filename_ext = malloc(sizeof(char) * (strlen(filename) + 32));
+  sprintf(filename_ext, "resources/dictionaries/.%s.mda", filename);
+  if(metadataArePresent(filename)) {
+    return remove(filename_ext);
+  }
+  return 0;
+}
+
+bool metadataArePresent(const char *filename) {
+  DIR *dir = opendir("resources/dictionaries");
+  struct dirent *ent;
+  if (dir) {
+    char *filename_ext = malloc(sizeof(char) * (strlen(filename) + 6));
+    sprintf(filename_ext, ".%s.mda", filename);
+    while ((ent = readdir(dir)) != NULL) {
+      if(strcmp(ent->d_name, filename_ext) == 0) {
+        free(filename_ext);
+        closedir(dir);
+        return true;
+      }
+    }
+    free(filename_ext);
+    closedir(dir);
+  }
+  return false;
 }
