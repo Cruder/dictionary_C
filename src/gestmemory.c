@@ -10,18 +10,18 @@
  * \return NULL if error or a bi-dimentional array
  */
 char **mallocBiChar(size_t x, size_t y) {
-  char **value = (char **)malloc(sizeof(char *) * x);
-  if(value == NULL) {
-    return NULL;
-  }
-  for(size_t i = 0; i < x; ++i) {
-    value[i] = (char *)malloc(sizeof(char) * y);
-    if(value[i] == NULL) {
-      freeBiChar(value, i - 1);
-      return NULL;
+    char **value = (char **)malloc(sizeof(char *) * x);
+    if(value == NULL) {
+        return NULL;
     }
-  }
-  return value;
+    for(size_t i = 0; i < x; ++i) {
+        value[i] = (char *)malloc(sizeof(char) * y);
+        if(value[i] == NULL) {
+            freeBiChar(value, i - 1);
+            return NULL;
+        }
+    }
+    return value;
 }
 
 /**
@@ -32,10 +32,10 @@ char **mallocBiChar(size_t x, size_t y) {
  * \brief Free a bi-dimentional char
  */
 void freeBiChar(char **value, size_t x) {
-  for(size_t i = 0; i < x; ++i) {
-    free(value[i]);
-    value[i] = NULL;
-  }
-  free(value);
-  value = NULL;
+    for(size_t i = 0; i < x; ++i) {
+        free(value[i]);
+        value[i] = NULL;
+    }
+    free(value);
+    value = NULL;
 }

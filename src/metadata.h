@@ -7,9 +7,9 @@
 #include <string.h>
 
 typedef struct {
-  size_t length;
-  long letters[26]; // Position on the document
-  FILE *file;
+    size_t length;
+    long letters[26]; // Position on the document
+    FILE *file;
 } Metadata;
 
 Metadata *emptyMetadata();

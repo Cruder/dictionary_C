@@ -13,31 +13,31 @@
  * \brief Function for creating an empty dictionary file
  * \return Boolean of success or not
  */
- bool createDictionary(const char *filename) {
-   if(!checkDictionaryPath()) {
-     return false;
-   }
-   FILE *file = openDictionaryFile(filename, "w");
-   if(!file) {
-     return false;
-   }
-   fprintf(file, "=== DICTIONARY TYPE ===\n");
-   fclose(file);
-   return createMetadata(filename);
- }
+bool createDictionary(const char *filename) {
+    if(!checkDictionaryPath()) {
+        return false;
+    }
+    FILE *file = openDictionaryFile(filename, "w");
+    if(!file) {
+        return false;
+    }
+    fprintf(file, "=== DICTIONARY TYPE ===\n");
+    fclose(file);
+    return createMetadata(filename);
+}
 
- /**
-  * \fn Dictionary *emptyDictionary()
-  *
-  * \brief Init a Dictionary struct with default values
-  * \return Dictionary pointer
-  */
+/**
+ * \fn Dictionary *emptyDictionary()
+ *
+ * \brief Init a Dictionary struct with default values
+ * \return Dictionary pointer
+ */
 Dictionary *emptyDictionary() {
-  Dictionary *d = malloc(sizeof(Dictionary));
-  d->metadata = NULL;
-  d->file = NULL;
-  d->filename = NULL;
-  return d;
+    Dictionary *d = malloc(sizeof(Dictionary));
+    d->metadata = NULL;
+    d->file = NULL;
+    d->filename = NULL;
+    return d;
 }
 
 /**
@@ -49,12 +49,12 @@ Dictionary *emptyDictionary() {
  * \return FILE* pointer to the file, NULL if failure
  */
 FILE* openDictionaryFile(const char *filename, const char *rights) {
-  char *filename_ext = malloc(strlen(filename) + 32);
-  sprintf(filename_ext, "resources/dictionaries/%s.dic", filename);
-  FILE *file = fopen(filename_ext, rights);
-  free(filename_ext);
-  filename_ext = NULL;
-  return file;
+    char *filename_ext = malloc(strlen(filename) + 32);
+    sprintf(filename_ext, "resources/dictionaries/%s.dic", filename);
+    FILE *file = fopen(filename_ext, rights);
+    free(filename_ext);
+    filename_ext = NULL;
+    return file;
 }
 
 /**
@@ -64,17 +64,17 @@ FILE* openDictionaryFile(const char *filename, const char *rights) {
  * \brief Free a Dictionary struct
  */
 void freeDictionary(Dictionary *dico) {
-  if(dico != NULL) {
-    freeMetadata(dico->metadata);
-    dico->metadata = NULL;
-    if(dico->file) {
-      fclose(dico->file);
-      dico->file = NULL;
+    if(dico != NULL) {
+        freeMetadata(dico->metadata);
+        dico->metadata = NULL;
+        if(dico->file) {
+            fclose(dico->file);
+            dico->file = NULL;
+        }
+        free(dico->filename);
+        dico->filename = NULL;
+        free(dico);
     }
-    free(dico->filename);
-    dico->filename = NULL;
-    free(dico);
-  }
     dico = NULL;
 }
 
@@ -86,13 +86,13 @@ void freeDictionary(Dictionary *dico) {
  * \return Dictionary* pointer to the Dictionary
  */
 Dictionary* selectDictionary(const char *filename) {
-  Dictionary *dico;
-  dico = emptyDictionary();
-  dico->filename = malloc(sizeof(char) * (strlen(filename) + 1));
-  strcpy(dico->filename, filename);
-  dico->metadata = loadMetadata(filename);
-  displayMetadata(dico->metadata);
-  return dico;
+    Dictionary *dico;
+    dico = emptyDictionary();
+    dico->filename = malloc(sizeof(char) * (strlen(filename) + 1));
+    strcpy(dico->filename, filename);
+    dico->metadata = loadMetadata(filename);
+    displayMetadata(dico->metadata);
+    return dico;
 }
 
 /**
@@ -102,18 +102,18 @@ Dictionary* selectDictionary(const char *filename) {
  * \return Boolean of success or not
  */
 bool checkDictionaryPath() {
-  struct stat st = {0};
-  if (stat("resources", &st) == -1) {
-    if(mkdir("resources", 0777) != 0) {
-      return false;
+    struct stat st = {0};
+    if (stat("resources", &st) == -1) {
+        if(mkdir("resources", 0777) != 0) {
+            return false;
+        }
     }
-  }
-  if (stat("resources/dictionaries", &st) == -1) {
-    if(mkdir("resources/dictionaries", 0777) != 0) {
-      return false;
+    if (stat("resources/dictionaries", &st) == -1) {
+        if(mkdir("resources/dictionaries", 0777) != 0) {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 }
 
 /*
@@ -124,23 +124,23 @@ bool checkDictionaryPath() {
  * \return -1 if error or the count of dictionaries found
  */
 ssize_t countDictionaries(char *dirname) {
-  ssize_t count = 0;
-  DIR *dir = opendir(dirname);
-  struct dirent *ent;
-  if (dir) {
-    while ((ent = readdir(dir)) != NULL) {
-      if(ent->d_type == DT_REG && strlen(ent->d_name) > 4) {
-        char *ext = (ent->d_name + strlen(ent->d_name) - 4);
-        if(strcmp(ext, ".dic") == 0) {
-          ++count;
+    ssize_t count = 0;
+    DIR *dir = opendir(dirname);
+    struct dirent *ent;
+    if (dir) {
+        while ((ent = readdir(dir)) != NULL) {
+            if(ent->d_type == DT_REG && strlen(ent->d_name) > 4) {
+                char *ext = (ent->d_name + strlen(ent->d_name) - 4);
+                if(strcmp(ext, ".dic") == 0) {
+                    ++count;
+                }
+            }
         }
-      }
+        closedir(dir);
+    } else {
+        return -1;
     }
-    closedir(dir);
-  } else {
-    return -1;
-  }
-  return count;
+    return count;
 }
 
 /**
@@ -152,34 +152,34 @@ ssize_t countDictionaries(char *dirname) {
  * \return NULL if error or the count of dictionaries found
  */
 char **listDictionaries(char *dirname, size_t *count) {
-  ssize_t dic_count = countDictionaries(dirname);
-  if(dic_count == -1) {
-    return NULL;
-  }
-  *count = (size_t)dic_count;
-  char **dictionaries = mallocBiChar(*count, 255);
-  DIR *dir = opendir(dirname);
-  struct dirent *ent;
-  if (dir) {
-    size_t cursor = 0;
-    while ((ent = readdir(dir)) != NULL) {
-      if(ent->d_type == DT_REG) {
-        char *ext = (ent->d_name + strlen(ent->d_name) - 4);
-        if(strcmp(ext, ".dic") == 0) {
-          strcpy(dictionaries[cursor++], ent->d_name);
-        }
-      }
+    ssize_t dic_count = countDictionaries(dirname);
+    if(dic_count == -1) {
+        return NULL;
     }
-    closedir(dir);
-  } else {
-    freeBiChar(dictionaries, *count);
-    return NULL;
-  }
+    *count = (size_t)dic_count;
+    char **dictionaries = mallocBiChar(*count, 255);
+    DIR *dir = opendir(dirname);
+    struct dirent *ent;
+    if (dir) {
+        size_t cursor = 0;
+        while ((ent = readdir(dir)) != NULL) {
+            if(ent->d_type == DT_REG) {
+                char *ext = (ent->d_name + strlen(ent->d_name) - 4);
+                if(strcmp(ext, ".dic") == 0) {
+                    strcpy(dictionaries[cursor++], ent->d_name);
+                }
+            }
+        }
+        closedir(dir);
+    } else {
+        freeBiChar(dictionaries, *count);
+        return NULL;
+    }
 
-  for(size_t i = 0; i < *count; ++i) {
-    dictionaries[i][strlen(dictionaries[i]) - 4] = '\0';
-  }
-  return dictionaries;
+    for(size_t i = 0; i < *count; ++i) {
+        dictionaries[i][strlen(dictionaries[i]) - 4] = '\0';
+    }
+    return dictionaries;
 }
 
 /**
@@ -269,27 +269,27 @@ int addWordFile(FILE *file, char *word, const long position) {
  * \return Boolean of success or not
  */
 bool synchronizeMetadata(Dictionary *dico) {
-  if (dico->file == NULL) {
-    dico->file = openDictionaryFile(dico->filename, "r+");
-  }
-  fseek(dico->file, 24, SEEK_SET);
-  char *str = malloc(sizeof(char) * 255);
-  long position = ftell(dico->file);
-  char c = 'a' - 1;
-  dico->metadata->length = 0;
-  while (fgets(str, 255, dico->file) && c < 'z') {
-    char letter = tolower(str[0]);
-    if ((letter >= 'a' || letter <= 'z') && letter > c) {
-      c = letter;
-      dico->metadata->letters[letter - 'a'] = position;
+    if (dico->file == NULL) {
+        dico->file = openDictionaryFile(dico->filename, "r+");
     }
-    dico->metadata->length++;
-    position = ftell(dico->file);
-  }
-  free(str);
-  fclose(dico->file);
-  dico->file = NULL;
-  return setMetadata(dico->metadata, dico->filename);
+    fseek(dico->file, 24, SEEK_SET);
+    char *str = malloc(sizeof(char) * 255);
+    long position = ftell(dico->file);
+    char c = 'a' - 1;
+    dico->metadata->length = 0;
+    while (fgets(str, 255, dico->file) && c < 'z') {
+        char letter = tolower(str[0]);
+        if ((letter >= 'a' || letter <= 'z') && letter > c) {
+            c = letter;
+            dico->metadata->letters[letter - 'a'] = position;
+        }
+        dico->metadata->length++;
+        position = ftell(dico->file);
+    }
+    free(str);
+    fclose(dico->file);
+    dico->file = NULL;
+    return setMetadata(dico->metadata, dico->filename);
 }
 
 /**
@@ -301,27 +301,27 @@ bool synchronizeMetadata(Dictionary *dico) {
  * \return Boolean of success or not
  */
 bool wordPresent(Dictionary *dico, char *word) {
-  dico->file = openDictionaryFile(dico->filename, "r");
-  word = toLowerCase(word);
-  if (word[0] >= 'a' && word[0] <= 'z') {
-    fseek(dico->file, dico->metadata->letters[word[0] - 'a'], SEEK_SET);
-  } else {
-    rewind(dico->file);
-  }
-  char *str = malloc(sizeof(char) * 255);
-  while (fgets(str, 255, dico->file) && word[0] == str[0]) {
-    if (str[strlen(str) - 1] == '\n') {
-      str[strlen(str) - 1] = '\0';
+    dico->file = openDictionaryFile(dico->filename, "r");
+    word = toLowerCase(word);
+    if (word[0] >= 'a' && word[0] <= 'z') {
+        fseek(dico->file, dico->metadata->letters[word[0] - 'a'], SEEK_SET);
+    } else {
+        rewind(dico->file);
     }
-    if (strcmp(str, word) == 0) {
-      fclose(dico->file);
-      dico->file = NULL;
-      return true;
+    char *str = malloc(sizeof(char) * 255);
+    while (fgets(str, 255, dico->file) && word[0] == str[0]) {
+        if (str[strlen(str) - 1] == '\n') {
+            str[strlen(str) - 1] = '\0';
+        }
+        if (strcmp(str, word) == 0) {
+            fclose(dico->file);
+            dico->file = NULL;
+            return true;
+        }
     }
-  }
-  fclose(dico->file);
-  dico->file = NULL;
-  return false;
+    fclose(dico->file);
+    dico->file = NULL;
+    return false;
 }
 
 /**
@@ -331,11 +331,11 @@ bool wordPresent(Dictionary *dico, char *word) {
  * \brief List all dictionnaries on a directory
  */
 int removeDictionary(const char *filename) {
-  if(removeMetadata(filename) == 0) {
-    char *filename_ext = malloc(sizeof(char) * (strlen(filename) + 32));
-    sprintf(filename_ext, "resources/dictionaries/%s.dic", filename);
-    printf("%s\n", filename_ext);
-    return remove(filename_ext);
-  }
-  return -1;
+    if(removeMetadata(filename) == 0) {
+        char *filename_ext = malloc(sizeof(char) * (strlen(filename) + 32));
+        sprintf(filename_ext, "resources/dictionaries/%s.dic", filename);
+        printf("%s\n", filename_ext);
+        return remove(filename_ext);
+    }
+    return -1;
 }
