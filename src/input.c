@@ -8,7 +8,7 @@
  * \return Boolean of success or not
  */
 bool getInt(int *number) {
-  char line[256];
+  char line[32];
   fseek(stdin, 0, SEEK_END);
   if (fgets(line, sizeof(line), stdin)) {
     if (1 == sscanf(line, "%d", number)) {
@@ -26,7 +26,7 @@ bool getInt(int *number) {
  * \return Boolean of success or not
  */
 bool getDouble(double *number) {
-  char line[256];
+  char line[32];
   fseek(stdin, 0, SEEK_END);
   if (fgets(line, sizeof(line), stdin)) {
     if (1 == sscanf(line, "%lf", number)) {
@@ -44,7 +44,7 @@ bool getDouble(double *number) {
  * \return Boolean of success or not
  */
 bool getChar(char *letter) {
-  char line[2];
+  char line[32];
   fseek(stdin, 0, SEEK_END);
   if (fgets(line, sizeof(line), stdin)) {
     if (1 == sscanf(line, "%c", letter)) {
@@ -106,7 +106,7 @@ bool getCharRange(char *letter, char min, char max) {
  * \return Boolean of success or not
  */
 bool getIntRange(int *number, int min, int max) {
-  char line[256];
+  char line[32];
   fseek(stdin, 0, SEEK_END);
   if (fgets(line, sizeof(line), stdin)) {
     if (1 == sscanf(line, "%d", number)) {
