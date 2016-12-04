@@ -80,7 +80,7 @@ void freeDictionary(Dictionary *dico) {
 
 /**
  * \fn Dictionary* selectDictionary(const char *filename)
- * \param filename String corresponding to the name of the file to select
+ * \param filename String corresponding to the name of the dicitonary without extension to select
  *
  * \brief Load a dictionary
  * \return Dictionary* pointer to the Dictionary
@@ -184,7 +184,7 @@ char **listDictionaries(char *dirname, size_t *count) {
 
 /**
  * \fn void displayDictionaries(char **dictionaries, size_t count)
- * \param dictionaries The list of all dictionaries
+ * \param dictionaries The list of all name of dictionaries without extension
  * \param count The count of dictionaries
  *
  * \brief List all dictionnaries on a directory
@@ -322,4 +322,20 @@ bool wordPresent(Dictionary *dico, char *word) {
   fclose(dico->file);
   dico->file = NULL;
   return false;
+}
+
+/**
+ * \fn int removeDictionary(const char *filename)
+ * \param filename The name of the dictionary without extension
+ *
+ * \brief List all dictionnaries on a directory
+ */
+int removeDictionary(const char *filename) {
+  if(removeMetadata(filename) == 0) {
+    char *filename_ext = malloc(sizeof(char) * (strlen(filename) + 32));
+    sprintf(filename_ext, "resources/dictionaries/%s.dic", filename);
+    printf("%s\n", filename_ext);
+    return remove(filename_ext);
+  }
+  return -1;
 }
