@@ -67,7 +67,7 @@ Metadata *loadMetadata(const char *filename) {
     fscanf(m->file, "# length: %zu\n", &m->length);
     for(size_t i = 0; i < 26; ++i) {
       char empty;
-      fscanf(m->file, "# %c_start: %ld\n", &empty, &m->letters_pos[i]);
+      fscanf(m->file, "# %c_start: %ld\n", &empty, &m->letters[i]);
     }
     fclose(m->file);
     m->file = NULL;
@@ -99,7 +99,7 @@ void freeMetadata(Metadata *m) {
 void displayMetadata(const Metadata *m) {
   printf("length: %zu\n", m->length);
   for (int i = 0; i < 26; i++) {
-    printf("%c_start: %ld\n", 'a' + i, m->letters_pos[i]);
+    printf("%c_start: %ld\n", 'a' + i, m->letters[i]);
   }
   printf("\n");
 }
@@ -117,7 +117,7 @@ void metadataWordAdded(Metadata *m, const char *filename, char *word) {
     size_t begin = (size_t)(word[0] - 'a' + 1);
 
     for(size_t i = begin; i < 26; ++i) {
-        m->letters_pos[i] += length;
+        m->letters[i] += length;
     }
     ++m->length;
     saveMetadata(m, filename);
@@ -136,7 +136,7 @@ void saveMetadata(Metadata *m, const char *filename) {
   fprintf(m->file, "# dictionary\n");
   fprintf(m->file, "# length: %zu\n", m->length);
   for(char i = 0; i < 26; ++i) {
-    fprintf(m->file, "# %c_start: %ld\n", 'a' + i, m->letters_pos[(int)i]);
+    fprintf(m->file, "# %c_start: %ld\n", 'a' + i, m->letters[(int)i]);
   }
   fputc('\n', m->file);
 
