@@ -120,18 +120,21 @@ void metadataWordAdded(Metadata *m, const char *filename, char *word) {
         m->letters[i] += length;
     }
     ++m->length;
-    saveMetadata(m, filename);
+    setMetadata(m, filename);
 }
 
 /**
- * \fn void saveMetadata(Metadata *m, const char *filename)
+ * \fn bool setMetadata(Metadata *m, const char *filename)
  * \param m Metadata struct pointer
- * \param filename The filename to open
+ * \param filename String corresponding to the name of the file to open
  *
- * \brief Save metadata in a file
+ * \brief Display the length and all the start_letter
  */
-void saveMetadata(Metadata *m, const char *filename) {
+bool setMetadata(Metadata *m, const char *filename) {
   m->file = openMetadataFile(filename, "w");
+  if (m->file == NULL) {
+    return false;
+  }
 
   fprintf(m->file, "# dictionary\n");
   fprintf(m->file, "# length: %zu\n", m->length);
@@ -142,4 +145,5 @@ void saveMetadata(Metadata *m, const char *filename) {
 
   fclose(m->file);
   m->file = NULL;
+  return true;
 }
