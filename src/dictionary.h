@@ -26,6 +26,7 @@ typedef struct {
     char *filename;
 } Dictionary;
 
+int removeDictionary(const char *filename);
 Dictionary *emptyDictionary();
 bool createDictionary(const char *filename);
 FILE* openDictionaryFile(const char *filename, const char *rights);
