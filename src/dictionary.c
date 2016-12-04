@@ -271,19 +271,21 @@ bool synchronizeMetadata(Dictionary *dico) {
     }
     fseek(dico->file, 24, SEEK_SET);
     char *str = malloc(sizeof(char) * 255);
+    long position = ftell(dico->file);
     char c = 'a' - 1;
     dico->metadata->length = 0;
     while (fgets(str, 255, dico->file) && c < 'z') {
         char letter = (char)tolower(str[0]);
         if ((letter >= 'a' || letter <= 'z') && letter > c) {
-            if (str[strlen(str) - 1] == '\n') {
-                str[strlen(str) - 1] = '\0';
-            }
             c = letter;
-            metadataWordAdded(dico->metadata, str);
+            dico->metadata->letters[letter - 'a'] = position;
+            for (size_t i = (size_t)letter - 'a' + 1; i < 26; i++) {
+                dico->metadata->letters[i] = position + strlen(str);
+            }
         }
+        dico->metadata->length++;
+        position = ftell(dico->file);
     }
-
     free(str);
     fclose(dico->file);
     dico->file = NULL;
