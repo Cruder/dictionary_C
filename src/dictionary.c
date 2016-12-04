@@ -64,16 +64,18 @@ FILE* openDictionaryFile(const char *filename, const char *rights) {
  * \brief Free a Dictionary struct
  */
 void freeDictionary(Dictionary *dico) {
-  freeMetadata(dico->metadata);
-  dico->metadata = NULL;
-  if(dico->file) {
-    fclose(dico->file);
+  if(dico != NULL) {
+    freeMetadata(dico->metadata);
+    dico->metadata = NULL;
+    if(dico->file) {
+      fclose(dico->file);
+    }
+    dico->file = NULL;
+    free(dico->filename);
+    dico->filename = NULL;
+    free(dico);
   }
-  dico->file = NULL;
-  free(dico->filename);
-  dico->filename = NULL;
-  free(dico);
-  dico = NULL;
+    dico = NULL;
 }
 
 /**
@@ -257,4 +259,35 @@ int addWordFile(FILE *file, char *word, const long position) {
     fputc('\n', file);
 
     return 0;
+}
+
+/**
+ * \fn bool synchronizeMetadata(Dictionary *dico)
+ * \param dico Dictionary on which synchronize the metadata
+ *
+ * \brief Read a dictionary file and make the metadata consequently
+ * \return Boolean of success or not
+ */
+bool synchronizeMetadata(Dictionary *dico) {
+  if (dico->file == NULL) {
+    dico->file = openDictionaryFile(dico->filename, "r+");
+  }
+  fseek(dico->file, 24, SEEK_SET);
+  char *str = malloc(sizeof(char) * 255);
+  long position = ftell(dico->file);
+  char c = 'a' - 1;
+  dico->metadata->length = 0;
+  while (fgets(str, 255, dico->file) && c < 'z') {
+    char letter = tolower(str[0]);
+    if ((letter >= 'a' || letter <= 'z') && letter > c) {
+      c = letter;
+      dico->metadata->letters[letter - 'a'] = position;
+    }
+    dico->metadata->length++;
+    position = ftell(dico->file);
+  }
+  free(str);
+  fclose(dico->file);
+  dico->file = NULL;
+  return setMetadata(dico->metadata, dico->filename);
 }
