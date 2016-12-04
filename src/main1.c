@@ -1,7 +1,7 @@
 #include "gestbib.h"
 
 int main(void) {
-  clear();
-  mainMenu();
-  return 0;
+    clear();
+    mainMenu();
+    return 0;
 }

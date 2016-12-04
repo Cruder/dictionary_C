@@ -2,9 +2,9 @@
 #define  __DICTIONARY_H__
 
 #ifdef __WIN32__
-  #define clear() system("cls")
+#define clear() system("cls")
 #else
-  #define clear() system("clear")
+#define clear() system("clear")
 #endif
 
 #include "input.h"
