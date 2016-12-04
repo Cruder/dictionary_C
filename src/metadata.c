@@ -105,7 +105,7 @@ void displayMetadata(const Metadata *m) {
 }
 
 /**
- * \fn void saveMetadata(Metadata *m, const char *filename)
+ * \fn void metadataWordAdded(Metadata *m, const char *filename, char *word)
  * \param m Metadata struct pointer
  * \param filename The filename to open
  * \param word The word added to the dictionary
