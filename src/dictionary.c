@@ -69,8 +69,8 @@ void freeDictionary(Dictionary *dico) {
     dico->metadata = NULL;
     if(dico->file) {
       fclose(dico->file);
+      dico->file = NULL;
     }
-    dico->file = NULL;
     free(dico->filename);
     dico->filename = NULL;
     free(dico);
@@ -290,4 +290,36 @@ bool synchronizeMetadata(Dictionary *dico) {
   fclose(dico->file);
   dico->file = NULL;
   return setMetadata(dico->metadata, dico->filename);
+}
+
+/**
+ * \fn bool wordPresent(Dictionary *dico, char *word)
+ * \param dico Dictionary on which to check if the word is present
+ * \param word String to search in the dictionary
+ *
+ * \brief Check if a word exists in a given dictionary
+ * \return Boolean of success or not
+ */
+bool wordPresent(Dictionary *dico, char *word) {
+  dico->file = openDictionaryFile(dico->filename, "r");
+  word = toLowerCase(word);
+  if (word[0] >= 'a' && word[0] <= 'z') {
+    fseek(dico->file, dico->metadata->letters[word[0] - 'a'], SEEK_SET);
+  } else {
+    rewind(dico->file);
+  }
+  char *str = malloc(sizeof(char) * 255);
+  while (fgets(str, 255, dico->file) && word[0] == str[0]) {
+    if (str[strlen(str) - 1] == '\n') {
+      str[strlen(str) - 1] = '\0';
+    }
+    if (strcmp(str, word) == 0) {
+      fclose(dico->file);
+      dico->file = NULL;
+      return true;
+    }
+  }
+  fclose(dico->file);
+  dico->file = NULL;
+  return false;
 }

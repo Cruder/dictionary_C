@@ -8,6 +8,7 @@
 #endif
 
 #include "input.h"
+#include "utils.h"
 #include "metadata.h"
 #include "gestmemory.h"
 
@@ -36,6 +37,7 @@ ssize_t countDictionaries(char *dirname);
 void displayDictionaries(char **dictionaries, size_t count);
 long positionForWord(Dictionary* file, char *word);
 int addWordFile(FILE *file, char *word, const long position);
+bool wordPresent(Dictionary *dico, char *word);
 bool synchronizeMetadata(Dictionary *dico);
 
 #endif //__DICTIONARY_H__
