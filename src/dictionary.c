@@ -69,8 +69,8 @@ void freeDictionary(Dictionary *dico) {
     dico->metadata = NULL;
     if(dico->file) {
       fclose(dico->file);
+      dico->file = NULL;
     }
-    dico->file = NULL;
     free(dico->filename);
     dico->filename = NULL;
     free(dico);

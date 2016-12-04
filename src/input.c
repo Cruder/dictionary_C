@@ -150,17 +150,3 @@ bool isIntRange(int number, int min, int max) {
   }
   return true;
 }
-
-/**
- * \fn char *toLowerCase(char *str)
- * \brief Set a string to lower case
- *
- * \param str String to set in lower case
- * \return Char* The formated string in lower case
- */
-char *toLowerCase(char *str) {
-  for (size_t i = 0; i < strlen(str); i++) {
-    str[i] = tolower(str[i]);
-  }
-  return str;
-}
