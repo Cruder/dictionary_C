@@ -8,7 +8,7 @@
 
 typedef struct {
   size_t length;
-  long letters_pos[26]; // Position on the document
+  long letters[26]; // Position on the document
   FILE *file;
 } Metadata;
 

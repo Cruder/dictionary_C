@@ -205,7 +205,7 @@ long positionForWord(Dictionary *dic, char *word) {
         fprintf(stderr, "An error has occured\n");
         return -1;
     }
-    long beginfile = dic->metadata->letters_pos[word[0] - 'a'];
+    long beginfile = dic->metadata->letters[word[0] - 'a'];
     fseek(dic->file, beginfile, SEEK_SET);
     while(1) {
         char *fw = (char *)malloc(sizeof(char) * 255);
