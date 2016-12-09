@@ -1,5 +1,4 @@
 #include "dictionary.h"
-#include "gestrech.h"
 
 #include <dirent.h>
 
