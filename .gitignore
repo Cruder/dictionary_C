@@ -1,9 +1,11 @@
 Makefile
-
-cmake_install.cmake
-
-CTestTestfile.cmake
+CMakeFiles
+CMakeScripts
 CMakeCache.txt
+cmake-build-debug/
+*.cmake
+
+
 tmp/
 
 bin/*
@@ -17,9 +19,6 @@ resources/dictionaries/*
 .DS_Store
 
 .idea/
-
-bin/*
-doc/*
 
 *.cbp
 
@@ -54,13 +53,7 @@ $RECYCLE.BIN/
 
 *.lnk
 
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Makefile
-cmake_install.cmake
 install_manifest.txt
-CTestTestfile.cmake
 
 *.d
 
@@ -76,5 +69,4 @@ CTestTestfile.cmake
 *.so.*
 *.dylib
 
-cmake-build-debug/
 lib/Debug/
