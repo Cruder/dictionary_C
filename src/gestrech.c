@@ -4,7 +4,7 @@
 /**
  * \brief Function for guide user into the main menu
  */
-void mainMenu(void) {
+void main2Menu(void) {
     int choice;
     do {
         printf("\n\n*** Dictionaries management ***\n\n"
@@ -29,7 +29,7 @@ void mainMenu(void) {
 void menuOpenDictionary(void) {
     char *dico = menuSelectDictionary();
     if(dico != NULL) {
-        menu(selectDictionary(dico));
+        menu2(selectDictionary(dico));
         free(dico);
         dico = NULL;
     }
@@ -68,7 +68,7 @@ char *menuSelectDictionary(void) {
 /**
  * \brief Function for guide user into the second menu
  */
-void menu(const Dictionary *dico) {
+void menu2(const Dictionary *dico) {
     int choice;
     do {
         printf("\n\n--- Dictionary ---\n\n"

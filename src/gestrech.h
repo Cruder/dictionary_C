@@ -3,10 +3,10 @@
 
 #include "dictionary.h"
 
-void mainMenu(void);
+void main2Menu(void);
 void menuOpenDictionary(void);
 char *menuSelectDictionary(void);
-void menu(const Dictionary *dico);
+void menu2(const Dictionary *dico);
 void menuSearchSimilarWord(const Dictionary *dico);
 
 #endif //__GESTRECH_H__

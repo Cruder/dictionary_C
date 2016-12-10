@@ -3,6 +3,6 @@
 
 int main(void) {
     clear();
-    mainMenu();
+    main2Menu();
     return EXIT_SUCCESS;
 }
