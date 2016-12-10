@@ -149,6 +149,11 @@ bool setMetadata(Metadata *m, const char *filename) {
     return true;
 }
 
+/**
+ * \fn int removeMetadata(const char *filename)
+ * \param filename The name of the file
+ * \return The code of file delete
+ */
 int removeMetadata(const char *filename) {
     char *filename_ext = malloc(sizeof(char) * (strlen(filename) + 32));
     sprintf(filename_ext, "resources/dictionaries/.%s.mda", filename);
@@ -158,6 +163,11 @@ int removeMetadata(const char *filename) {
     return 0;
 }
 
+/**
+ * \fn bool metadataArePresent(const char *filename)
+ * \param filename The name of the file
+ * \return true if metadata found, otherwise false
+ */
 bool metadataArePresent(const char *filename) {
     DIR *dir = opendir("resources/dictionaries");
     struct dirent *ent;
