@@ -210,7 +210,7 @@ int countFileWord(const char *filename) {
  * \return Integer of the code error
  */
 int dictionaryFromFile(const char *filename, const char *dico_name) {
-    int count;
+    unsigned int count;
     char **words = readTxtFile(filename, &count);
     if (words == NULL) {
         return 1;
@@ -262,17 +262,18 @@ int dictionaryFromFileEx(Dictionary *dic, char **words, int count, int status) {
  * \brief Read a txt file and collect words
  * \return Array with the strings from the given file
  */
-char **readTxtFile(const char *filename, int* count) {
-    *count = countFileWord(filename);
+char **readTxtFile(const char *filename, unsigned int *count) {
+    int res = countFileWord(filename);
     FILE *file = fopen(filename, "r");
-    if (*count == -1 || file == NULL) {
+    if ((res < 0) || (file == NULL))
         return NULL;
-    }
+    else
+        *count = res;
     char **words = mallocBiChar(*count, 255);
     if (words == NULL) {
         return NULL;
     }
-    for (size_t i = 0; i < *count; i++) {
+    for (unsigned int i = 0 ; i < *count ; i++) {
         fgets(words[i], 255, file);
     }
     fclose(file);

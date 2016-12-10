@@ -17,7 +17,7 @@ void menuCreateDictionaryFromFile(void);
 void menuSearchWord(Dictionary *dico);
 void menuRemoveDictionary(void);
 
-char **readTxtFile(const char *filename, int *count);
+char **readTxtFile(const char *filename, unsigned int *count);
 int dictionaryFromFile(const char *filename, const char *dico);
 int dictionaryFromFileEx(Dictionary *dic, char **words, int count, int status);
 int countFileWord(const char *filename);

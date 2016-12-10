@@ -3,20 +3,20 @@
 /**
 * \fn char **strSortedMakeUniq(char **strings, int *size)
 * \param strings The array of strings to make uniq
-* \param size Size of th array
+* \param size Size of the array
 *
 * \brief Check for duplicate strings into a sorted array and make them uniq
 * \return Array of strings without duplicate
 */
-char **strSortedMakeUniq(char **strings, int *size) {
-    for (size_t i = 0; i < *size - 1; ++i) {
+char **strSortedMakeUniq(char **strings, unsigned int *size) {
+    for (unsigned int i = 0 ; i < (*size) - 1 ; i++) {
         if(strcmp(strings[i], strings[i + 1]) == 0) {
             free(strings[i + 1]);
-            for (size_t j = i + 1; j < *size - 1; ++j) {
+            for(unsigned int j = i + 1 ; j < (*size) - 1 ; j++) {
                 strings[j] = strings[j + 1];
             }
             i--;
-            strings[--(*size)] = NULL;
+            strings[(*size)--] = NULL;
         }
     }
     return strings;
@@ -43,10 +43,10 @@ void swapChar(char **a, char **b) {
 *
 * \brief Sort an array of strings with quick sort algorithm
 */
-void quickSort(char **array, int start, int end) {
+void quickSort(char **array, const unsigned int start, const unsigned int end) {
     int left = start - 1;
     int right = end + 1;
-    char *pivot = malloc(sizeof(char) * 255);
+    char pivot[255] = {'\0'};
     strcpy(pivot, array[start]);
 
     if(start >= end) {
@@ -70,7 +70,6 @@ void quickSort(char **array, int start, int end) {
 
     quickSort(array, start, right);
     quickSort(array, right + 1, end);
-    free(pivot);
 }
 
 /**
