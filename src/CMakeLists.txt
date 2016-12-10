@@ -5,3 +5,4 @@ add_executable(Dictionary4 main4.c gestmemory.c gestexpr.c dictionary.c metadata
 
 #Adding the md5 lib
 #target_link_libraries(DictionaryX md5)
+#target_link_libraries(DictionaryX AccelLib)
