@@ -1,6 +1,8 @@
+#include <stdio.h>
 #include "gestrech.h"
 
 int main(void) {
-    printf("Hello Word\n");
-    return 0;
+    clear();
+    main2Menu();
+    return EXIT_SUCCESS;
 }
