@@ -113,7 +113,8 @@ int levenshtein(char *str1, char *str2) {
         int last_cost = i + 1;
         for (size_t j = 0; j < size2; j++) {
             int sub_cost = (str1[i] == str2[j]) ? 0 : 1;
-            int cost = min(min(last_cost + 1, val[j + 1] + 1), val[j] + sub_cost);
+            int cost = minInt(last_cost + 1, val[j + 1] + 1);
+            cost = minInt(cost, val[j] + sub_cost);
             val[j] = last_cost;
             last_cost = cost;
         }

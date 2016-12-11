@@ -94,7 +94,7 @@ char *toLowerCase(char *str) {
 * \param b Integer
 * \return Integer the lower value between the two given Integers
 */
-int min(int a, int b) {
+int minInt(int a, int b) {
     if(a < b) {
         return a;
     }
