@@ -41,6 +41,7 @@ void menu2(const Dictionary *dico) {
     int choice;
     do {
         printf("\n\n--- Dictionary ---\n\n"
+               "\t1. Change threshold\n"
                "\t2. Search a similar word\n"
                "\t0. Return to Dictionaries management\n\n");
         do {
@@ -48,6 +49,9 @@ void menu2(const Dictionary *dico) {
         } while(!getIntRange(&choice, 0, 1));
         switch (choice) {
             case 1:
+                menuChangeThreshold(dico->metadata, dico->filename);
+                break;
+            case 2:
                 menuSearchSimilarWord(dico);
                 break;
             case 0:
@@ -84,18 +88,18 @@ void menuSearchSimilarWord(const Dictionary *dico) {
 }
 
 /**
-* \fn int levenshtein(char *str1, char *str2)
-* \brief Calculate the distance between the two given strings
-* \param str1 Char * string to compare
-* \param str2 Char * string model must be in lowercase
-* \return Integer the distance between the two given strings
-*/
+ * \fn int levenshtein(char *str1, char *str2)
+ * \brief Calculate the distance between the two given strings
+ * \param str1 Char * string to compare
+ * \param str2 Char * string model must be in lowercase
+ * \return Integer the distance between the two given strings
+ */
 int levenshtein(char *str1, char *str2) {
     toLowerCase(str1);
     if (strcasecmp(str1, str2) == 0) {
         return 0;
     }
-    if(strlen(str2) > strlen(str1)) {
+    if (strlen(str2) > strlen(str1)) {
         swapChar(&str1, &str2);
     }
 
@@ -121,4 +125,21 @@ int levenshtein(char *str1, char *str2) {
     int distance = val[size2];
     free(val);
     return distance;
+}
+
+/**
+ * \param metadata Metadata to change
+ * \param filename The name of the metadata file
+ */
+void menuChangeThreshold(Metadata *metadata, const char *filename) {
+    int value;
+    printf("Set a positive number (>= 0)\n");
+    do {
+        do {
+            printf("Your value: ");
+        } while(!getInt(&value));
+    } while(value < 0);
+
+    metadata->threshold = (size_t)value;
+    setMetadata(metadata, filename);
 }

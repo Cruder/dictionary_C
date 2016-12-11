@@ -11,5 +11,6 @@ void main2Menu(void);
 void menu2OpenDictionary(void);
 void menu2(const Dictionary *dico);
 void menuSearchSimilarWord(const Dictionary *dico);
+void menuChangeThreshold(Metadata *metadata, const char *filename);
 
 #endif //__GESTRECH_H__

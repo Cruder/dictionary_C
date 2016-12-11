@@ -8,6 +8,7 @@
 
 typedef struct {
     size_t length;
+    size_t threshold;
     long letters[26]; // Position on the document
     FILE *file;
 } Metadata;
