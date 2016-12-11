@@ -101,7 +101,7 @@ void freeMetadata(Metadata *m) {
  */
 void displayMetadata(const Metadata *m) {
     printf("length: %zu\n", m->length);
-    printf("threshold: %zu\n", m->length);
+    printf("threshold: %zu\n", m->threshold);
     for (int i = 0; i < 26; i++) {
         printf("%c_start: %ld\n", 'a' + i, m->letters[i]);
     }
