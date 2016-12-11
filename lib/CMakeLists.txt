@@ -2,6 +2,4 @@
 
 #target_include_directory(. PUBLIC)
 
-#add_subdirectory(folderlib)
-
 include_directories(*/include)
