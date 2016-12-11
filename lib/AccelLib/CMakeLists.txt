@@ -2,17 +2,17 @@
 
 project(libAccelLib)
 
-include_directories(include)
+set(INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
 
 if(WIN32)
     if(MSYS OR MINGW)
-        link_directories(lib/mingw)
+        set(LINKS ${CMAKE_CURRENT_SOURCE_DIR}/lib/mingw PARENT_SCOPE)
     elseif()
         message(SEND_ERROR "AccelLib not already avaible for this environnement.")
         #link_directories(lib/win32)
     endif()
 else() #unix system
-    link_directories(lib/unix)
+    set(LINKS ${CMAKE_CURRENT_SOURCE_DIR}/lib/unix PARENT_SCOPE)
 endif()
 
 #environnement cible
@@ -40,3 +40,4 @@ elseif(WATCOM)
 elseif(MSVC OR MSVC_IDE OR MSVC60 OR MSVC70 OR MSVC71 OR MSVC80 OR CMAKE_COMPILER_2005 OR MSVC90 OR MSVC10 OR "MSVC10 (Visual Studio 2010)")
     add_definitions(-DMSVC)
 endif()
+

@@ -4,4 +4,11 @@
 
 add_subdirectory(AccelLib)
 
-include_directories(*/include)
+if(INCLUDES)
+    set(INCLUDES ${INCLUDES} PARENT_SCOPE)
+endif()
+
+if(LINKS)
+    set(LINKS ${LINKS} PARENT_SCOPE)
+endif()
+
