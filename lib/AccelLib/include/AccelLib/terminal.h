@@ -5,17 +5,13 @@
 #include "testOS.h"
 #include <stdint.h>
 
-#ifndef _IS_WINDOWS
-#define _IS_WINDOWS TRUE
-#endif // _IS_WINDOWS
-
 void term_resize(const unsigned short int lng, const unsigned short int col);
 //void term_posWin(const unsigned int x, const unsigned int y);
 void term_posCursor(const unsigned int x, const unsigned int y);
 
 
 /// Couleurs du terminal
-typedef enum COULEUR_TERMINAL
+typedef enum COLOR_TERMINAL
 {
   #ifdef _IS_WINDOWS
     COLOR_BLACK=0x0,        COLOR_RED=0x4,        COLOR_GREEN=0x2,         COLOR_YELLOW=0x6,
@@ -28,7 +24,7 @@ typedef enum COULEUR_TERMINAL
     COLOR_LIGHT_GRAY=7,    COLOR_DARK_GRAY=60,  COLOR_LIGHT_RED=61,     COLOR_LIGHT_GREEN=62,
     COLOR_LIGHT_YELLOW=63, COLOR_LIGHT_BLUE=64, COLOR_LIGHT_MAGENTA=65, COLOR_LIGHT_CYAN=66
   #endif
-} COULEUR_TERMINAL;
+} COLOR_TERMINAL;
 
 /* compatibilité avec ancien nommage des couleurs de base */
 #define BLACK   COLOR_BLACK
@@ -51,8 +47,8 @@ void clear_terminal();
  * BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN et WHITE).
  * Les parmètres suivants sont comme le printf "normal" : chaîne de format puis toutes les valeurs à afficher
  */
-int color_printf(COULEUR_TERMINAL fg, COULEUR_TERMINAL bg, const char * format, ...);
-int color_puts(COULEUR_TERMINAL fg, COULEUR_TERMINAL bg, const char *chaine);
+int color_printf(COLOR_TERMINAL fg, COLOR_TERMINAL bg, const char * format, ...);
+int color_puts(COLOR_TERMINAL fg, COLOR_TERMINAL bg, const char *chaine);
 
 
 typedef struct Size {

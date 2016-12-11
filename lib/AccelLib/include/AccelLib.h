@@ -14,7 +14,7 @@ Fichier raccourci incluant toutes les sous-parties.
 //#include "AccelLib\_log.h"
 
 /** Fonctionnalités relative au temps */
-#include "AccelLib\time.h"
+#include "AccelLib\time_.h"
 
 /** Permet une utilisation avancée du terminal */
 #include "AccelLib\terminal.h"
