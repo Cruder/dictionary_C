@@ -1,6 +1,4 @@
 #include "gestbib.h"
-#include "gestorth.h"
-#include "gestrech.h"
 
 /**
  * \fn void printMainMenu()
