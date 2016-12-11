@@ -1,4 +1,5 @@
 #include "gestbib.h"
+#include <AccelLib/terminal.h>
 
 /**
  * \fn void printMainMenu()
@@ -93,7 +94,7 @@ void menu(Dictionary *dico) {
                 break;
             case 0:
                 freeDictionary(dico);
-                clear();
+                clear_terminal();
                 break;
         }
     } while(choice != 0);

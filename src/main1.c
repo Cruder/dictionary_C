@@ -1,7 +1,9 @@
 #include "gestbib.h"
+#include <AccelLib/terminal.h>
+#include <stdio.h>
 
 int main(void) {
-    clear();
+    clear_terminal();
     mainMenu();
-    return 0;
+    return EXIT_SUCCESS;
 }
