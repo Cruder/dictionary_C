@@ -1,6 +1,4 @@
 #include "gestrech.h"
-<<<<<<< c47e201e18a5ab1d1fa72a1ebaf626bdf811d06b
-#include <string.h>
 
 /**
  * \brief Function for guide user into the main menu
@@ -88,15 +86,15 @@ void menuSearchSimilarWord(const Dictionary *dico) {
 /**
 * \fn int levenshtein(char *str1, char *str2)
 * \brief Calculate the distance between the two given strings
-* \param str1 Char *
-* \param str2 Char *
+* \param str1 Char * string to compare
+* \param str2 Char * string model must be in lowercase
 * \return Integer the distance between the two given strings
 */
 int levenshtein(char *str1, char *str2) {
-    if (strcmp(str1, str2) == 0) {
+    toLowerCase(str1);
+    if (strcasecmp(str1, str2) == 0) {
         return 0;
     }
-
     if(strlen(str2) > strlen(str1)) {
         swapChar(&str1, &str2);
     }
