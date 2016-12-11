@@ -1,4 +1,5 @@
 #include "gestrech.h"
+#include <AccelLib/terminal.h>
 
 /**
  * \brief Function for guide user into the main menu
@@ -57,7 +58,7 @@ void menu2(Dictionary *dico) {
                 break;
             case 0:
                 freeDictionary(dico);
-                clear();
+                clear_terminal();
                 break;
         }
     } while(choice != 0);

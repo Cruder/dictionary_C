@@ -1,12 +1,6 @@
 #ifndef __DICTIONARY_H__
 #define  __DICTIONARY_H__
 
-#ifdef __WIN32__
-#define clear() system("cls")
-#else
-#define clear() system("clear")
-#endif
-
 #include "input.h"
 #include "utils.h"
 #include "metadata.h"
