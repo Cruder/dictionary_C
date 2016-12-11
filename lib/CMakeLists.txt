@@ -3,5 +3,6 @@
 #target_include_directory(. PUBLIC)
 
 add_subdirectory(md5)
+add_subdirectory(AccelLib)
 
 include_directories(*/include)
