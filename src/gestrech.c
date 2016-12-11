@@ -1,5 +1,4 @@
 #include "gestrech.h"
-#include <string.h>
 
 /**
  * \brief Function for guide user into the main menu
@@ -82,4 +81,44 @@ void menuSearchSimilarWord(const Dictionary *dico) {
             printf("Your word is void ...\n");
     } else
     fprintf(stderr, "Error while getting user input.\n");
+}
+
+/**
+* \fn int levenshtein(char *str1, char *str2)
+* \brief Calculate the distance between the two given strings
+* \param str1 Char * string to compare
+* \param str2 Char * string model must be in lowercase
+* \return Integer the distance between the two given strings
+*/
+int levenshtein(char *str1, char *str2) {
+    toLowerCase(str1);
+    if (strcasecmp(str1, str2) == 0) {
+        return 0;
+    }
+    if(strlen(str2) > strlen(str1)) {
+        swapChar(&str1, &str2);
+    }
+
+    size_t size1 = strlen(str1);
+    size_t size2 = strlen(str2);
+
+    int *val = malloc(sizeof(int) * size2 + 1);
+    for (size_t i = 0; i <= size2; i++) {
+        val[i] = i;
+    }
+
+    for (size_t i = 0; i < size1; i++) {
+        int last_cost = i + 1;
+        for (size_t j = 0; j < size2; j++) {
+            int sub_cost = (str1[i] == str2[j]) ? 0 : 1;
+            int cost = minInt(last_cost + 1, val[j + 1] + 1);
+            cost = minInt(cost, val[j] + sub_cost);
+            val[j] = last_cost;
+            last_cost = cost;
+        }
+        val[size2] = last_cost;
+    }
+    int distance = val[size2];
+    free(val);
+    return distance;
 }
