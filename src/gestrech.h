@@ -2,6 +2,10 @@
 #define  __GESTRECH_H__
 
 #include "dictionary.h"
+#include "utils.h"
+#include <stdlib.h>
+
+int levenshtein(char *str1, char *str2);
 
 void main2Menu(void);
 void menu2OpenDictionary(void);
