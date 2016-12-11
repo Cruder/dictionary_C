@@ -3,4 +3,9 @@
 
 #include "dictionary.h"
 
+void main2Menu(void);
+void menu2OpenDictionary(void);
+void menu2(const Dictionary *dico);
+void menuSearchSimilarWord(const Dictionary *dico);
+
 #endif //__GESTRECH_H__
