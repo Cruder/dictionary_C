@@ -1,27 +1,27 @@
 #include "gestrech.h"
 #include <AccelLib/terminal.h>
+#include <stdbool.h>
+#include "menu.h"
 
 /**
  * \brief Function for guide user into the main menu
  */
 void main2Menu(void) {
-    int choice;
+    const ColorStr title = txtColor("Dictionaries management", COLOR_WHITE, COLOR_BLACK);
+    const ColorStr msg = txtColor("Welcome to Dictionary Manager !", COLOR_YELLOW, COLOR_BLACK);
+    Menu_entry entries[] = {{'o', "Open an existing dictionary"}, {'q', "Quit"}};
+    bool continu = true;
     do {
-        printf("\n\n*** Dictionaries management ***\n\n"
-               "\t1. Open an existing dictionary\n"
-               "\t0. Quit\n\n");
-        do {
-            printf("Your choice: ");
-        } while(!getIntRange(&choice, 0, 1));
-        switch (choice) {
+        switch (Menu_Choice(title, msg, entries, sizeof(entries))) {
             case 1:
                 menu2OpenDictionary();
                 break;
             case 0:
                 printf("Good bye!\n");
+                continu = false;
                 break;
         }
-    } while(choice != 0);
+    } while(continu);
 }
 
 /**
