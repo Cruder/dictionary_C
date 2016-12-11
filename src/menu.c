@@ -5,6 +5,149 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#define SECTION_CHAR '='
+#define TITLE_CHAR '*'
+#define SUBTITLE_CHAR '-'
+#define MENU_OPT_CHAR '.'
+
+/**
+ * \brief Helper function for create ColorStr structure
+ * \param fg : color of the font or foregroung
+ * \param bg : color of the background
+ * \param str : text to color
+ * \return ColorStr strcture initialise with datas
+ */
+ColorStr txtColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
+    ColorStr cs = (ColorStr){.fg = fg, .bg = bg, .str = str};
+    return cs;
+}
+
+/**
+ * \brief Helper function for create null ColorStr structure
+ * \return ColorStr strcture initialise to null
+ */
+ColorStr nullColor() {
+    ColorStr cs = {.fg = COLOR_BLACK, .bg = COLOR_BLACK, .str = NULL};
+    return cs;
+}
+
+/**
+ * \brief Print a section title
+ * \param str : the title of the secion
+ */
+void Menu_section(const char str[]) {
+    const size_t len = strlen(str) + 2*2;
+    unsigned int i;
+    for(i=0 ; i < len ; i++)
+        putchar(SECTION_CHAR);
+    printf("\n%c %s %c\n", SECTION_CHAR, str, SECTION_CHAR);
+    for(i=0 ; i < len ; i++)
+        putchar(SECTION_CHAR);
+    putchar('\n');
+}
+
+/**
+ * \brief Print a section title
+ * \param str : the title of the secion
+ * \param fg : the color the font or foreground
+ * \param bg : the color the background
+ */
+void Menu_sectionColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
+    const size_t len = strlen(str) + 2*2;
+    unsigned int i;
+    const char spec[2] = {SECTION_CHAR, '\0'};
+    for(i=0 ; i < len ; i++)
+        color_puts(fg, bg, spec);
+    color_printf(fg, bg, "\n%c %s %c\n", SECTION_CHAR, str, SECTION_CHAR);
+    for(i=0 ; i < len ; i++)
+        color_puts(fg, bg, spec);
+    putchar('\n');
+}
+
+/**
+ * \brief Print a title
+ * \param the string of the title
+ */
+void Menu_title(const char str[]) {
+    printf(" %s %c\n", str, TITLE_CHAR);
+    const size_t len = strlen(str) + 3;
+    unsigned int i;
+    for(i=0 ; i < len ; i++)
+        putchar(TITLE_CHAR);
+    putchar('\n');
+}
+
+/**
+ * \brief Print a title
+ * \param the string of the title
+ */
+void Menu_titleColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
+    printf(" %s %c\n", str, TITLE_CHAR);
+    const size_t len = strlen(str) + 3;
+    unsigned int i;
+    const char spec[2] = {TITLE_CHAR, '\0'};
+    for(i=0 ; i < len ; i++)
+        color_puts(fg, bg, spec);
+    putchar('\n');
+}
+
+/**
+ * \brief Print the title, message and choices of a menu
+ * \param title : title of the menu
+ * \param msg : message of menu (facultatif)
+ * \param choices : choices of the menu
+ * \param nb : number of choices
+ */
+void Menu_ChoicePrint(const ColorStr title, const ColorStr msg, const Menu_entry choices[], const unsigned int nb) {
+    Menu_titleColor(title.str, title.fg, title.bg);
+    if(msg.str != NULL)
+        color_printf(msg.fg, msg.bg, "%s\n", msg.str);
+    unsigned int i;
+    for(i=0 ; i < nb ; i++) {
+        printf("\t%c%c %s\n", choices[i].choice, MENU_OPT_CHAR, choices[i].msg);
+    }
+}
+
+/**
+ * \brief Test if choice is valid
+ * \param choice : the choice to check
+ * \param entries : entries to see
+ * \param nb : number of entries to see
+ * \return true if choice is in entries, false else
+ */
+bool Menu_entries_valid(const char choice, const Menu_entry entries[], const unsigned int nb) {
+    unsigned int i;
+    for(i=0 ; i < nb ; i++)
+        if(entries[i].choice == choice)
+            return true;
+    return false;
+}
+
+/**
+ * \brief Show a menu and return the choice of user
+ * \param title : title of the menu
+ * \param msg : message of menu (facultatif)
+ * \param choices : choices of the menu
+ * \return the choice of user
+ */
+char Menu_Choice(const ColorStr title, const ColorStr msg, const Menu_entry choices[], const unsigned int nb) {
+    bool continu = true;
+    char choice;
+    uint8_t cnt;
+    while(continu) {
+        clear_terminal();
+        Menu_ChoicePrint(title, msg, choices, nb);
+        putchar('\n');
+        cnt = 0;
+        while(continu && (cnt < 5)) {
+            choice = Menu_askChar(COLOR_LIGHT_GRAY, "Your choice :", COLOR_LIGHT_BLUE, true);
+            continu = Menu_entries_valid(choice, choices, nb);
+            cnt++;
+        }
+    }
+    return choice;
+}
+
 /**
  * \brief Menu that ask question to user
  * \param question_color color of the question
