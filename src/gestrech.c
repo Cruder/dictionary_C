@@ -10,14 +10,14 @@
 void main2Menu(void) {
     const ColorOut title = txtColor("Dictionaries management", COLOR_WHITE, COLOR_BLACK);
     const ColorOut msg = txtColor("Welcome to Dictionary Manager !", COLOR_YELLOW, COLOR_BLACK);
-    MenuEntry entries[] = {{'o', "Open an existing dictionary"}, {'q', "Quit"}};
+    MenuEntry entries[] = {{'1', "Open an existing dictionary"}, {'0', "Quit"}};
     bool continu = true;
     do {
         switch (menuChoice(title, msg, entries, COUNTOF(entries))) {
-            case 'o':
+            case '1':
                 menu2OpenDictionary();
                 break;
-            case 'q':
+            case '0':
                 color_printf(COLOR_BLUE, COLOR_BLACK, "Good bye!\n");
                 continu = false;
                 break;
@@ -43,7 +43,7 @@ void menu2OpenDictionary(void) {
 void menu2(const Dictionary *dico) {
     const ColorOut title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
     const ColorOut msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
-    MenuEntry entries[] = {{'s', "Search a similar word"}, {'q', "Quit dictionary"}};
+    MenuEntry entries[] = {{'1', "Search a similar word"}, {'0', "Quit dictionary"}};
     bool continu = true;
     do {
         switch(menuChoice(title, msg, entries, COUNTOF(entries))) {
@@ -53,7 +53,7 @@ void menu2(const Dictionary *dico) {
             case 's':
                 menuSearchSimilarWord(dico);
                 break;
-            case 'q':
+            case '0':
                 color_printf(COLOR_YELLOW, COLOR_BLACK, "Closing dictionary ... ");
                 freeDictionary(dico);
                 color_printf(COLOR_GREEN, COLOR_BLACK, "Done\n");
