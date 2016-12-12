@@ -20,23 +20,35 @@
 #define color_puts(fg, bg, str) color_printf(fg, bg, "%s", str) //puts() insère un \n ...
 
 /**
- * \brief Helper function for create ColorStr structure
+ * \brief Helper function for create ColorOut structure
  * \param fg : color of the font or foregroung
  * \param bg : color of the background
  * \param str : text to color
- * \return ColorStr strcture initialise with datas
+ * \return ColorOut strcture initialise with datas
  */
-ColorStr txtColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
-    ColorStr cs = (ColorStr){.fg = fg, .bg = bg, .str = str};
+ColorOut txtColor(/*const*/ char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
+    ColorOut cs = (ColorOut){.fg = fg, .bg = bg, .str = str};
     return cs;
 }
 
 /**
- * \brief Helper function for create null ColorStr structure
- * \return ColorStr strcture initialise to null
+ * \brief Helper function for create null ColorOut structure
+ * \return ColorOut strcture initialise to null
  */
-ColorStr nullColor() {
-    ColorStr cs = {.fg = COLOR_BLACK, .bg = COLOR_BLACK, .str = NULL};
+ColorOut nullColor() {
+    ColorOut cs = {.fg = COLOR_BLACK, .bg = COLOR_BLACK, .str = NULL};
+    return cs;
+}
+
+/**
+ * \brief Helper function for create ColorIn structure
+ * \param fg : color of the font or foregroung
+ * \param bg : color of the background
+ * \param str : string where save the input
+ * \return ColorIn strcture initialise with datas
+ */
+ColorIn inColor(/*const*/ char **str, const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
+    ColorIn cs = (ColorIn){.fg = fg, .bg = bg, .str = str};
     return cs;
 }
 
@@ -61,15 +73,14 @@ void Menu_section(const char str[]) {
  * \param fg : the color the font or foreground
  * \param bg : the color the background
  */
-void menuSectionColor(const ColorStr section) {
+void menuSectionColor(const ColorOut section) {
     const size_t len = strlen(section.str) + 2*2;
     unsigned int i;
-    const char spec[2] = {SECTION_CHAR, '\0'};
     for(i=0 ; i < len ; i++)
-        color_puts(section.fg, section.bg, spec);
+        color_putchar(section.fg, section.bg, SECTION_CHAR);
     color_printf(section.fg, section.bg, "\n%c %s %c\n", SECTION_CHAR, section.str, SECTION_CHAR);
     for(i=0 ; i < len ; i++)
-        color_puts(section.fg, section.bg, spec);
+        color_putchar(section.fg, section.bg, SECTION_CHAR);
     putchar('\n');
 }
 
@@ -91,15 +102,13 @@ void menuTitle(const char str[]) {
  * \brief Print a title
  * \param the string of the title
  */
-void menuTitleColor(const ColorStr title) {
+void menuTitleColor(const ColorOut title) {
     color_printf(title.fg, title.bg, " %s %c\n", title.str, TITLE_CHAR_END);
     const size_t len = strlen(title.str) + 3 -1;
     unsigned int i;
-    /*const*/ char spec[2] = {TITLE_CHAR_UNDER, '\0'};
     for(i=0 ; i < len ; i++)
-        color_puts(title.fg, title.bg, spec);
-    spec[0] = TITLE_CHAR_CROSS;
-    color_puts(title.fg, title.bg, spec);
+        color_putchar(title.fg, title.bg, TITLE_CHAR_UNDER);
+    color_putchar(title.fg, title.bg, TITLE_CHAR_CROSS);
     putchar('\n');
 }
 
@@ -110,7 +119,7 @@ void menuTitleColor(const ColorStr title) {
  * \param choices : choices of the menu
  * \param nb : number of choices
  */
-void menuChoicePrint(const ColorStr title, const ColorStr msg, const MenuEntry choices[], const unsigned int nb) {
+void menuChoicePrint(const ColorOut title, const ColorOut msg, const MenuEntry choices[], const unsigned int nb) {
     menuTitleColor(title);
     if(msg.str != NULL)
         color_printf(msg.fg, msg.bg, "%s\n\n", msg.str);
@@ -145,7 +154,7 @@ bool menuEntriesValid(const char choice, const MenuEntry entries[], const unsign
  * \param choices : choices of the menu
  * \return the choice of user
  */
-char menuChoice(const ColorStr title, const ColorStr msg, const MenuEntry choices[], const unsigned int nb) {
+char menuChoice(const ColorOut title, const ColorOut msg, const MenuEntry choices[], const unsigned int nb) {
     bool continu = true;
     char choice;
     uint8_t cnt;
@@ -174,20 +183,18 @@ char menuChoice(const ColorStr title, const ColorStr msg, const MenuEntry choice
  *
  * Do a question to the user and ask while user haven't answer.
  */
-void menuAskString(const ColorStr question,
-                   const COLOR_TERMINAL answerColor, char *answer[], const unsigned int answerSize,
-                   const bool answerAllowVoid) {
+void menuAskString(const ColorOut question, const ColorIn answer, const bool answerAllowVoid) {
     char *buffer = NULL;
     do {
         color_printf(question.fg, question.bg, "%s ", question.str);
         //scanf("%" STR(sizeof(UINT32_MAX)-1) "[^\n]%*[^\n]", answer);
-        scanf("%m[^\n]", &buffer);
+        color_scanf(answer.fg, answer.bg, "%m[^\n]", &buffer);
         if(buffer == NULL) { //si scanf n'a pas réussi à alloué le buffer
-            answer[0] = '\0';
+            *(answer.str)[0] = '\0';
             return;
         } else
-            strncpy(*answer, buffer, answerSize);
-    } while((!answerAllowVoid) && (strlen(*answer) <= 0));
+            strncpy(*(answer.str), buffer, answer.size);
+    } while((!answerAllowVoid) && (strlen(*(answer.str)) <= 0));
 }
 
 /**
@@ -200,12 +207,12 @@ void menuAskString(const ColorStr question,
  *
  * Do a question to the user and ask while user haven't answer.
  */
-char menuAskChar(const ColorStr question,
+char menuAskChar(const ColorOut question,
                  const COLOR_TERMINAL answerColor, const bool answerAllowVoid) {
     char answer;
     do {
         color_printf(question.fg, question.bg, "%s ", question.str);
-        scanf("%c%*c", &answer);
+        color_scanf(answerColor, MENU_ASK_COLOR_BG, "%c%*c", &answer);
     } while((!answerAllowVoid) && (answer == '\n'));
     return answer;
 }
@@ -222,7 +229,7 @@ char menuAskChar(const ColorStr question,
  *
  * Do a question to the user where answer can only be yes or no, and ask while user haven't answer.
  */
-bool menuAskYesNo(const ColorStr question,
+bool menuAskYesNo(const ColorOut question,
                   const COLOR_TERMINAL answerColor, const char answerYes, const char answerNo,
                   const MenuDefault answerDefault) {
     const bool allow_void = (answerDefault != DefaultAny);

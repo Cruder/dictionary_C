@@ -24,34 +24,44 @@ typedef enum MenuDefault {
 } MenuDefault;
 
 /**
- * \struct ColorStr
+ * \struct ColorOut
  * \brief Simlple structure for color text
  */
-typedef struct ColorStr {
+typedef struct ColorOut {
     COLOR_TERMINAL fg, bg;
     char *str;
-} ColorStr;
+} ColorOut;
 
-ColorStr txtColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg);
-ColorStr nullColor();
+ColorOut txtColor(/*const*/ char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg);
+ColorOut nullColor();
 
-void menuAskString(const ColorStr question,
-                   const COLOR_TERMINAL answerColor, char *answer[], const unsigned int answerSize,
-                   const bool answerAllowVoid);
-char menuAskChar(const ColorStr question,
+/**
+ * \struct ColorOut
+ * \brief Simlple structure for color text
+ */
+typedef struct ColorIn {
+    COLOR_TERMINAL fg, bg;
+    char **str;
+    unsigned int size;
+} ColorIn;
+
+ColorIn inColor(/*const*/ char **str, const COLOR_TERMINAL fg, const COLOR_TERMINAL bg);
+
+void menuAskString(const ColorOut question, const ColorIn answer, const bool answerAllowVoid);
+char menuAskChar(const ColorOut question,
                  const COLOR_TERMINAL answerColor, const bool answerAllowVoid);
-bool menuAskYesNo(const ColorStr question,
+bool menuAskYesNo(const ColorOut question,
                   const COLOR_TERMINAL answerColor, const char answerYes, const char answerNo,
                   const MenuDefault answerDefault);
 
 void menuSection(const char str[]);
-void menuSectionColor(const ColorStr section);
+void menuSectionColor(const ColorOut section);
 void menuTitle(const char str[]);
-void menuTitleColor(const ColorStr title);
+void menuTitleColor(const ColorOut title);
 
 bool menuEntriesValid(const char choice, const MenuEntry entries[], const unsigned int nb);
-void menuChoicePrint(const ColorStr title, const ColorStr msg, const MenuEntry choices[], const unsigned int nb);
-char menuChoice(const ColorStr title, const ColorStr msg, const MenuEntry choices[], const unsigned int nb);
+void menuChoicePrint(const ColorOut title, const ColorOut msg, const MenuEntry choices[], const unsigned int nb);
+char menuChoice(const ColorOut title, const ColorOut msg, const MenuEntry choices[], const unsigned int nb);
 
 
 #endif // MENU_H_INCLUDED

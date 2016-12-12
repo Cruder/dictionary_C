@@ -8,8 +8,8 @@
  * \brief Function for guide user into the main menu
  */
 void main2Menu(void) {
-    const ColorStr title = txtColor("Dictionaries management", COLOR_WHITE, COLOR_BLACK);
-    const ColorStr msg = txtColor("Welcome to Dictionary Manager !", COLOR_YELLOW, COLOR_BLACK);
+    const ColorOut title = txtColor("Dictionaries management", COLOR_WHITE, COLOR_BLACK);
+    const ColorOut msg = txtColor("Welcome to Dictionary Manager !", COLOR_YELLOW, COLOR_BLACK);
     MenuEntry entries[] = {{'o', "Open an existing dictionary"}, {'q', "Quit"}};
     bool continu = true;
     do {
@@ -41,8 +41,8 @@ void menu2OpenDictionary(void) {
  * \brief Function for guide user into the second menu
  */
 void menu2(const Dictionary *dico) {
-    const ColorStr title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
-    const ColorStr msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
+    const ColorOut title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
+    const ColorOut msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
     MenuEntry entries[] = {{'s', "Search a similar word"}, {'q', "Quit dictionary"}};
     bool continu = true;
     do {
