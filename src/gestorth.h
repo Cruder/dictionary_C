@@ -3,4 +3,6 @@
 
 #include "dictionary.h"
 
+void listUnexistsWords(Dictionary *dictionary, const char *filename);
+
 #endif //__GESTORTH_H__
