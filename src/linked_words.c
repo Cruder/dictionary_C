@@ -81,14 +81,14 @@ void displayLinkedWord(LinkedWords *lw) {
 }
 
 /**
- * \fn LinkedWords *getLinkedWordThresold(Dictionary *dico, int thres, char *word)
+ * \fn LinkedWords *getLinkedWordThresold(Dictionary *dico, size_t thres, char *word)
  * \param dico A pointer to the dictionary to parse into a LinkedWords
  * \param thres The Threshold to select words with the levenshtein algorithm
  * \param word The string to compare with the levenshtein algorithm
  * \brief Create a new LinkedWords selecting close words from the given word into a dictionary
  * \return LinkedWords* the firts element of the LinkedWords
  */
-LinkedWords *getLinkedWordThresold(Dictionary *dico, int thres, char *word) {
+LinkedWords *getLinkedWordThresold(Dictionary *dico, size_t thres, char *word) {
     if (dico->file == NULL) {
         dico->file = openDictionaryFile(dico->filename, "r");
     }

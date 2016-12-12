@@ -16,7 +16,7 @@ typedef struct LinkedWords LinkedWords;
 LinkedWords* newWord(char *str);
 void freeLinkedWords(LinkedWords* lw);
 LinkedWords *getLinkedWordFromFile(Dictionary *dico, size_t *size);
-LinkedWords *getLinkedWordThresold(Dictionary *dico, int thres, char *word);
+LinkedWords *getLinkedWordThresold(Dictionary *dico, size_t thres, char *word);
 void displayLinkedWord(LinkedWords *lw);
 
 #endif /* end of include guard: __LINKED_WORDS_H__ */

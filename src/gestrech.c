@@ -47,7 +47,7 @@ void menu2(Dictionary *dico) {
                "\t0. Return to Dictionaries management\n\n", dico->filename);
         do {
             printf("Your choice: ");
-        } while(!getIntRange(&choice, 0, 1));
+        } while(!getIntRange(&choice, 0, 2));
         switch (choice) {
             case 1:
                 menuChangeThreshold(dico->metadata, dico->filename);
@@ -74,7 +74,10 @@ void menuSearchSimilarWord(Dictionary *dico) {
         printf("Enter a word: ");
     } while (!getString(255, word));
     if(strlen(chump(word)) > 0) {
-        LinkedWords *first_linked_word = getLinkedWordThresold(dico, 4, word);
+        LinkedWords *first_linked_word;
+        first_linked_word = getLinkedWordThresold(dico,
+                                                  dico->metadata->threshold,
+                                                  word);
         if (first_linked_word != NULL) {
             printf("Similar words:\n");
             displayLinkedWord(first_linked_word);
