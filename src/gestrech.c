@@ -22,6 +22,7 @@ void main2Menu(void) {
         }
     } while(choice != 0);
 }
+
 /**
  * \brief Help the user to open a Dictionary
  */
@@ -37,16 +38,16 @@ void menu2OpenDictionary(void) {
 /**
  * \brief Function for guide user into the second menu
  */
-void menu2(const Dictionary *dico) {
+void menu2(Dictionary *dico) {
     int choice;
     do {
-        printf("\n\n--- Dictionary ---\n\n"
+        printf("\n\n--- Dictionary %s ---\n\n"
                "\t1. Change threshold\n"
                "\t2. Search a similar word\n"
-               "\t0. Return to Dictionaries management\n\n");
+               "\t0. Return to Dictionaries management\n\n", dico->filename);
         do {
             printf("Your choice: ");
-        } while(!getIntRange(&choice, 0, 1));
+        } while(!getIntRange(&choice, 0, 2));
         switch (choice) {
             case 1:
                 menuChangeThreshold(dico->metadata, dico->filename);
@@ -67,24 +68,26 @@ void menu2(const Dictionary *dico) {
  * \param dico : Dictionary for search
  *
  */
-void menuSearchSimilarWord(const Dictionary *dico) {
-    char word[255] = {'\0'};
-    printf("Enter a word : ");
-    if(getString(255, word)) {
-        if(strlen(word) > 0) {
-            char **simWords;
-            const unsigned int nb /*= searchSimilarWords(dico, word, simWords)*/;
-            if(nb > 0) {
-                unsigned int i;
-                printf("Similar words :\n");
-                for(i=0 ; i < nb ; i++)
-                    printf("\t> %s\n", simWords[i]);
-            } else
-                printf("No similar word to %s was found ...\n");
-        } else
-            printf("Your word is void ...\n");
-    } else
-    fprintf(stderr, "Error while getting user input.\n");
+void menuSearchSimilarWord(Dictionary *dico) {
+    char *word = malloc(sizeof(char) * 255);
+    do {
+        printf("Enter a word: ");
+    } while (!getString(255, word));
+    if(strlen(chomp(word)) > 0) {
+        LinkedWords *first_linked_word;
+        first_linked_word = getLinkedWordThresold(dico,
+                                                  dico->metadata->threshold,
+                                                  word);
+        if (first_linked_word != NULL) {
+            printf("Similar words:\n");
+            displayLinkedWord(first_linked_word);
+            freeLinkedWords(first_linked_word);
+        } else {
+            printf("An error occured when reading the dictionary %s.\n",
+                    dico->filename);
+        }
+    }
+    free(word);
 }
 
 /**
