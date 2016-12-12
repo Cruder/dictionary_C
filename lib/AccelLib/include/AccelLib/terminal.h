@@ -48,7 +48,37 @@ void clear_terminal();
  * Les parmètres suivants sont comme le printf "normal" : chaîne de format puis toutes les valeurs à afficher
  */
 int color_printf(COLOR_TERMINAL fg, COLOR_TERMINAL bg, const char * format, ...);
+
+/*!
+ * puts() en couleur.
+ * S'utilise comme le puts "normal".
+ */
 int color_puts(COLOR_TERMINAL fg, COLOR_TERMINAL bg, const char *chaine);
+
+/*!
+ * putchar() en couleur.
+ * S'utilise comme le putchar "normal".
+ */
+int color_putchar(COLOR_TERMINAL fg, COLOR_TERMINAL bg, const int caract);
+
+/*!
+ * Scanf en couleur. Les deux premiers paramètres sont les couleurs d'écriture et de fond (mettre une des valeurs parmi :
+ * BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN et WHITE).
+ * Les parmètres suivants sont comme le scanf "normal" : chaîne de format puis toutes les valeurs à récupérer
+ */
+int color_scanf(COLOR_TERMINAL fg, COLOR_TERMINAL bg, const char * format, ...);
+
+/*!
+ * gets() en couleur.
+ * S'utilise comme le gets "normal".
+ */
+char* color_gets(COLOR_TERMINAL fg, COLOR_TERMINAL bg, char *s);
+
+/*!
+ * getchar() en couleur.
+ * S'utilise comme le getchar "normal".
+ */
+int color_getchar(COLOR_TERMINAL fg, COLOR_TERMINAL bg);
 
 
 typedef struct Size {
