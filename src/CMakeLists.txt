@@ -5,6 +5,4 @@ add_executable(Dictionary2 main2.c gestrech.c ${common})
 add_executable(Dictionary3 main3.c gestorth.c ${common})
 add_executable(Dictionary4 main4.c gestexpr.c ${common})
 
-#Adding the md5 lib
-#target_link_libraries(DictionaryX md5)
 #target_link_libraries(DictionaryX AccelLib)
