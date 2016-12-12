@@ -113,3 +113,21 @@ char *chomp(char *str) {
     }
     return str;
 }
+
+/**
+ * \param word The word to clean
+ *
+ * \brief Remove punctuations ".!?,;:/_"
+ */
+void cleanWord(char *word) {
+    char clean[] = ".!?,;:/_";
+    size_t wordlen = strlen(word);
+
+    for(size_t i = 0; i < wordlen; ++i) {
+        if (strchr(clean, word[i]) != NULL) {
+            for(size_t j = i; j < wordlen; ++j) {
+                word[j] = word[j + 1];
+            }
+        }
+    }
+}
