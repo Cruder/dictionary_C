@@ -73,7 +73,7 @@ void menuSearchSimilarWord(Dictionary *dico) {
     do {
         printf("Enter a word: ");
     } while (!getString(255, word));
-    if(strlen(chump(word)) > 0) {
+    if(strlen(chomp(word)) > 0) {
         LinkedWords *first_linked_word;
         first_linked_word = getLinkedWordThresold(dico,
                                                   dico->metadata->threshold,

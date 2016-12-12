@@ -13,7 +13,7 @@ LinkedWords *newWord(char *str) {
     LinkedWords* lw = malloc(sizeof(LinkedWords));
     lw->word = malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(lw->word, str);
-    chump(lw->word);
+    chomp(lw->word);
     lw->next = NULL;
     return lw;
 }
@@ -31,7 +31,9 @@ void freeLinkedWords(LinkedWords* lw) {
         freeLinkedWords(lw->next);
     }
     free(lw->word);
+    lw->word = NULL;
     free(lw);
+    lw = NULL;
 }
 
 /**

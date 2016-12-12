@@ -102,12 +102,12 @@ int minInt(int a, int b) {
 }
 
 /**
-* \fn char *chump(char *str)
+* \fn char *chomp(char *str)
 * \brief Remove the '\n' last caracter before the '\0' if exists
 * \param str The string to treat
 * \return Char* The string without the final '\n'
 */
-char *chump(char *str) {
+char *chomp(char *str) {
     if (str[strlen(str) - 1] == '\n') {
         str[strlen(str) - 1] = '\0';
     }
