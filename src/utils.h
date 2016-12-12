@@ -7,6 +7,8 @@
 #include <ctype.h>
 #include <string.h>
 
+#define COUNTOF(x) (sizeof(x) / sizeof((x)[0]))
+
 char *toLowerCase(char *str);
 char **strSortedMakeUniq(char **strings, int *size);
 void swapChar(char **a, char **b);

@@ -2,6 +2,7 @@
 #include <AccelLib/terminal.h>
 #include <stdbool.h>
 #include "menu.h"
+#include "utils.h"
 
 /**
  * \brief Function for guide user into the main menu
@@ -12,12 +13,12 @@ void main2Menu(void) {
     Menu_entry entries[] = {{'o', "Open an existing dictionary"}, {'q', "Quit"}};
     bool continu = true;
     do {
-        switch (Menu_Choice(title, msg, entries, sizeof(entries))) {
-            case 1:
+        switch (Menu_Choice(title, msg, entries, COUNTOF(entries))) {
+            case 'o':
                 menu2OpenDictionary();
                 break;
-            case 0:
-                printf("Good bye!\n");
+            case 'q':
+                color_printf(COLOR_BLUE, COLOR_BLACK, "Good bye!\n");
                 continu = false;
                 break;
         }
@@ -39,29 +40,28 @@ void menu2OpenDictionary(void) {
 /**
  * \brief Function for guide user into the second menu
  */
-void menu2(Dictionary *dico) {
+void menu2(const Dictionary *dico) {
+    const ColorStr title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
+    const ColorStr msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
+    Menu_entry entries[] = {{'s', "Search a similar word"}, {'q', "Quit dictionary"}};
+    bool continu = true;
     int choice;
     do {
-        printf("\n\n--- Dictionary %s ---\n\n"
-               "\t1. Change threshold\n"
-               "\t2. Search a similar word\n"
-               "\t0. Return to Dictionaries management\n\n", dico->filename);
-        do {
-            printf("Your choice: ");
-        } while(!getIntRange(&choice, 0, 2));
-        switch (choice) {
-            case 1:
+        switch(Menu_Choice(title, msg, entries, COUNTOF(entries))) {
+            case '1':
                 menuChangeThreshold(dico->metadata, dico->filename);
                 break;
-            case 2:
+            case 's':
                 menuSearchSimilarWord(dico);
                 break;
-            case 0:
+            case 'q':
+                color_printf(COLOR_YELLOW, COLOR_BLACK, "Closing dictionary ... ");
                 freeDictionary(dico);
-                clear_terminal();
+                color_printf(COLOR_GREEN, COLOR_BLACK, "Done\n");
+                continu = false;
                 break;
         }
-    } while(choice != 0);
+    } while(continu);
 }
 
 /**
