@@ -10,10 +10,10 @@
 void main2Menu(void) {
     const ColorStr title = txtColor("Dictionaries management", COLOR_WHITE, COLOR_BLACK);
     const ColorStr msg = txtColor("Welcome to Dictionary Manager !", COLOR_YELLOW, COLOR_BLACK);
-    Menu_entry entries[] = {{'o', "Open an existing dictionary"}, {'q', "Quit"}};
+    MenuEntry entries[] = {{'o', "Open an existing dictionary"}, {'q', "Quit"}};
     bool continu = true;
     do {
-        switch (Menu_Choice(title, msg, entries, COUNTOF(entries))) {
+        switch (menuChoice(title, msg, entries, COUNTOF(entries))) {
             case 'o':
                 menu2OpenDictionary();
                 break;
@@ -43,11 +43,10 @@ void menu2OpenDictionary(void) {
 void menu2(const Dictionary *dico) {
     const ColorStr title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
     const ColorStr msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
-    Menu_entry entries[] = {{'s', "Search a similar word"}, {'q', "Quit dictionary"}};
+    MenuEntry entries[] = {{'s', "Search a similar word"}, {'q', "Quit dictionary"}};
     bool continu = true;
-    int choice;
     do {
-        switch(Menu_Choice(title, msg, entries, COUNTOF(entries))) {
+        switch(menuChoice(title, msg, entries, COUNTOF(entries))) {
             case '1':
                 menuChangeThreshold(dico->metadata, dico->filename);
                 break;

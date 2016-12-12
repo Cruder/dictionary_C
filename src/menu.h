@@ -8,20 +8,20 @@
  * \struct Menu_entry
  * \brief Structure of an entry of a menu
  */
-typedef struct Menu_entry {
+typedef struct MenuEntry {
     const char choice;
     const char *msg;
-} Menu_entry;
+} MenuEntry;
 
 /**
  * \enum Menu_Default
  * \brief Default answer for a yes/no question
  */
-typedef enum Menu_Default {
-    Menu_No, ///< Default answer is No
-    Menu_Yes, ///< Default answer is Yes
-    Menu_Any ///< No default answer
-} Menu_Default;
+typedef enum MenuDefault {
+    DefaultNo, ///< Default answer is No
+    DefaultYes, ///< Default answer is Yes
+    DefaultAny ///< No default answer
+} MenuDefault;
 
 /**
  * \struct ColorStr
@@ -35,23 +35,23 @@ typedef struct ColorStr {
 ColorStr txtColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg);
 ColorStr nullColor();
 
-void Menu_askString(const COLOR_TERMINAL question_color, const char question[],
-                    const COLOR_TERMINAL answer_color, char *answer[], const unsigned int answer_size,
-                    const bool answer_allow_void);
-char Menu_askChar(const COLOR_TERMINAL question_color, const char question[],
-                  const COLOR_TERMINAL answer_color, const bool answer_allow_void);
-bool Menu_askYesNo(const COLOR_TERMINAL question_color, const char question[],
-                   const COLOR_TERMINAL answer_color, const char answer_yes, const char answer_no,
-                   const Menu_Default answer_default);
+void menuAskString(const ColorStr question,
+                   const COLOR_TERMINAL answerColor, char *answer[], const unsigned int answerSize,
+                   const bool answerAllowVoid);
+char menuAskChar(const ColorStr question,
+                 const COLOR_TERMINAL answerColor, const bool answerAllowVoid);
+bool menuAskYesNo(const ColorStr question,
+                  const COLOR_TERMINAL answerColor, const char answerYes, const char answerNo,
+                  const MenuDefault answerDefault);
 
-void Menu_section(const char str[]);
-void Menu_sectionColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg);
-void Menu_title(const char str[]);
-void Menu_titleColor(const char str[], const COLOR_TERMINAL fg, const COLOR_TERMINAL bg);
+void menuSection(const char str[]);
+void menuSectionColor(const ColorStr section);
+void menuTitle(const char str[]);
+void menuTitleColor(const ColorStr title);
 
-bool Menu_entries_valid(const char choice, const Menu_entry entries[], const unsigned int nb);
-void Menu_ChoicePrint(const ColorStr title, const ColorStr msg, const Menu_entry choices[], const unsigned int nb);
-char Menu_Choice(const ColorStr title, const ColorStr msg, const Menu_entry choices[], const unsigned int nb);
+bool menuEntriesValid(const char choice, const MenuEntry entries[], const unsigned int nb);
+void menuChoicePrint(const ColorStr title, const ColorStr msg, const MenuEntry choices[], const unsigned int nb);
+char menuChoice(const ColorStr title, const ColorStr msg, const MenuEntry choices[], const unsigned int nb);
 
 
 #endif // MENU_H_INCLUDED
