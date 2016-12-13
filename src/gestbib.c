@@ -1,6 +1,4 @@
 #include "gestbib.h"
-#include "gestorth.h"
-#include "gestrech.h"
 
 /**
  * \fn void printMainMenu()
@@ -73,37 +71,6 @@ void menuOpenDictionary(void) {
     }
 }
 
-
-/**
- * \fn char *menuSelectDictionary(void)
- * \brief Help the user to select a Dictionary
- * \return Char* the name of a dictionary without extension
- */
-char *menuSelectDictionary(void) {
-    size_t count;
-    char **dicos = listDictionaries("resources/dictionaries", &count);
-    if(dicos == NULL) {
-        printf("An error has occured.\n");
-        return NULL;
-    }
-
-    printf("Select a dictionary\n");
-    displayDictionaries(dicos, count);
-    printf("\t0. CANCEL - Back to menu\n");
-    int choice;
-    do {
-        printf("Your choice: ");
-    } while(!getIntRange(&choice, 0, count));
-    if(choice == 0) {
-        freeBiChar(dicos, count);
-        return NULL;
-    }
-
-    char *value = malloc(sizeof(char) * (strlen(dicos[choice - 1]) + 1));
-    strcpy(value, dicos[choice - 1]);
-    freeBiChar(dicos, count);
-    return value;
-}
 
 /**
  * \fn void mainMenu()

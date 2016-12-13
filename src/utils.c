@@ -86,3 +86,30 @@ char *toLowerCase(char *str) {
     }
     return str;
 }
+
+/**
+* \fn int min(int a, int b)
+* \brief Get the lower value between the two given Integers
+* \param a Integer
+* \param b Integer
+* \return Integer the lower value between the two given Integers
+*/
+int minInt(int a, int b) {
+    if(a < b) {
+        return a;
+    }
+    return b;
+}
+
+/**
+* \fn char *chomp(char *str)
+* \brief Remove the '\n' last caracter before the '\0' if exists
+* \param str The string to treat
+* \return Char* The string without the final '\n'
+*/
+char *chomp(char *str) {
+    if (str[strlen(str) - 1] == '\n') {
+        str[strlen(str) - 1] = '\0';
+    }
+    return str;
+}

@@ -11,7 +11,6 @@ void menu(Dictionary *dico);
 
 void menuCreateDictionary(void);
 void menuOpenDictionary(void);
-char *menuSelectDictionary(void);
 void menuAddDictionaryWord(Dictionary *dico);
 void menuCreateDictionaryFromFile(void);
 void menuSearchWord(Dictionary *dico);

@@ -29,6 +29,7 @@ bool createMetadata(const char *filename) {
     }
     fprintf(file, "# dictionary\n");
     fprintf(file, "# length: 0\n");
+    fprintf(file, "# threshold: 0\n");
     for(char i = 0; i < 26; ++i) {
         fprintf(file, "# %c_start: 24\n", 'a' + i);
     }
@@ -66,6 +67,7 @@ Metadata *loadMetadata(const char *filename) {
     if(m->file) {
         fscanf(m->file, "# dictionary\n");
         fscanf(m->file, "# length: %zu\n", &m->length);
+        fscanf(m->file, "# threshold: %zu\n", &m->threshold);
         for(size_t i = 0; i < 26; ++i) {
             char empty;
             fscanf(m->file, "# %c_start: %ld\n", &empty, &m->letters[i]);
@@ -99,6 +101,7 @@ void freeMetadata(Metadata *m) {
  */
 void displayMetadata(const Metadata *m) {
     printf("length: %zu\n", m->length);
+    printf("threshold: %zu\n", m->threshold);
     for (int i = 0; i < 26; i++) {
         printf("%c_start: %ld\n", 'a' + i, m->letters[i]);
     }
@@ -139,6 +142,7 @@ bool setMetadata(Metadata *m, const char *filename) {
 
     fprintf(m->file, "# dictionary\n");
     fprintf(m->file, "# length: %zu\n", m->length);
+    fprintf(m->file, "# threshold: %zu\n", m->threshold);
     for(char i = 0; i < 26; ++i) {
         fprintf(m->file, "# %c_start: %ld\n", 'a' + i, m->letters[(int)i]);
     }
