@@ -120,7 +120,7 @@ char *chomp(char *str) {
  * \brief Remove punctuations ".!?,;:/_"
  */
 void cleanWord(char *word) {
-    char clean[] = ".!?,;:/_";
+    char clean[] = ".!?,;:/_&\"()[]{}=+*\\#|";
     size_t wordlen = strlen(word);
 
     for(size_t i = 0; i < wordlen; ++i) {
