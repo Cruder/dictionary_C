@@ -1,5 +1,4 @@
 #include "gestorth.h"
-#include "linked_words.h"
 
 /**
  * \param dictionary The dictionary who contains words
@@ -16,9 +15,6 @@ void listUnexistsWords(Dictionary *dictionary, const char *filename) {
 
     char *str = malloc(sizeof(char) * 255);
 
-    bool is_first_word = false;
-    LinkedWords *first_linked_word = NULL;
-    LinkedWords *next_linked_word = NULL;
     size_t counter = 0;
     size_t line = 1;
     while(!feof(file)) {
@@ -28,21 +24,13 @@ void listUnexistsWords(Dictionary *dictionary, const char *filename) {
         size_t wordlen = strlen(str);
         if(wordlen > 0 && wordPresent(dictionary, str) == false) {
             printf("\t%zu > %s\n", line, str);
-            if(is_first_word == false) {
-                is_first_word = true;
-                first_linked_word = newWord(str);
-                next_linked_word = first_linked_word;
-            } else {
-                next_linked_word->next = newWord(str);
-                next_linked_word = next_linked_word->next;
-            }
             ++counter;
             for(size_t i = 0; i < wordlen; ++i) {
                 str[i] = '\0';
             }
         }
-        int newline;
-        while ((newline = fgetc(file)) == '\n') {
+
+        while (fgetc(file) == '\n') {
             ++line;
         }
         if(!feof(file)) {
@@ -51,7 +39,6 @@ void listUnexistsWords(Dictionary *dictionary, const char *filename) {
     }
 
     printf("Line %zu\n", line);
-    // displayLinkedWord(first_linked_word);
 
     free(str);
     fclose(file);
