@@ -1,31 +1,7 @@
 #include "gestbib.h"
+#include <ctype.h>
 #include <AccelLib/terminal.h>
-
-/**
- * \fn void printMainMenu()
- * \brief Function for display the main menu
- *
- */
-void printMainMenu() {
-    printf("\n\n*** Dictionaries management ***\n\n"
-                   "\t1. Open an existing dictionary\n"
-                   "\t2. Create an empty dictionary\n"
-                   "\t3. Create a dictionary with a text file\n"
-                   "\t4. Remove a dictionary\n"
-                   "\t0. Quit\n\n");
-}
-
-/**
- * \fn void printMenu()
- * \brief Function for display the second menu
- *
- */
-void printMenu() {
-    printf("\n\n--- Dictionary ---\n\n"
-                   "\t1. Add a word\n"
-                   "\t2. Search a word\n"
-                   "\t0. Return to Dictionaries management\n\n");
-}
+#include "input.h"
 
 /**
  * \fn void mainMenu()
@@ -33,30 +9,34 @@ void printMenu() {
  *
  */
 void mainMenu(void) {
-    int choice;
+    const ColorOut title = txtColor("Dictionaries management", COLOR_WHITE, COLOR_BLACK);
+    const ColorOut msg = txtColor("Welcome to Dictionary Manager !", COLOR_YELLOW, COLOR_BLACK);
+    MenuEntry entries[] = {{'1', "Open an existing dictionary"},
+                           {'2', "Create an empty dictionary"},
+                           {'3', "Create a dictionary with a text file"},
+                           {'4', "Remove a dictionary"},
+                           {'0', "Quit"}};
+    bool continu = true;
     do {
-        printMainMenu();
-        do {
-            printf("Your choice: ");
-        } while(!getIntRange(&choice, 0, 4));
-        switch (choice) {
-            case 1:
+        switch (menuChoice(title, msg, entries, COUNTOF(entries))) {
+            case '1':
                 menuOpenDictionary();
                 break;
-            case 2:
+            case '2':
                 menuCreateDictionary();
                 break;
-            case 3:
+            case '3':
                 menuCreateDictionaryFromFile();
                 break;
-            case 4:
+            case '4':
                 menuRemoveDictionary();
                 break;
-            case 0:
-                printf("Good bye!\n");
+            case '0':
+                color_printf(COLOR_BLUE, COLOR_BLACK, "Good bye!\n");
+                continu = false;
                 break;
         }
-    } while(choice != 0);
+    } while(continu);
 }
 
 /**
@@ -66,9 +46,22 @@ void mainMenu(void) {
 void menuOpenDictionary(void) {
     char *dico = menuSelectDictionary();
     if(dico != NULL) {
-        menu(selectDictionary(dico));
+        color_puts(COLOR_YELLOW, COLOR_BLACK, "Opening dictionary ... ");
+        Dictionary *dic = selectDictionary(dico);
+        if(dic != NULL) {
+            menu(dic);
+            color_printf(COLOR_YELLOW, COLOR_BLACK, "Closing dictionary ... ");
+            freeDictionary(dic);
+            color_printf(COLOR_GREEN, COLOR_BLACK, "Done\n");
+        } else {
+            color_printf(COLOR_LIGHT_RED, COLOR_BLACK, "Error while opening the dictionary %s ...\n", dico);
+            pause_msg();
+        }
         free(dico);
         dico = NULL;
+    } else {
+        color_puts(COLOR_LIGHT_RED, COLOR_BLACK, "No dictionary selected ...");
+        pause_msg();
     }
 }
 
@@ -79,25 +72,25 @@ void menuOpenDictionary(void) {
  *
  */
 void menu(Dictionary *dico) {
-    int choice;
+    const ColorOut title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
+    const ColorOut msg = txtColor(dico->filename, COLOR_MAGENTA, COLOR_BLACK);
+    MenuEntry entries[] = {{'1', "Add a word"},
+                           {'2', "Search a word"},
+                           {'0', "Return to Dictionaries management"}};
+    bool continu = true;
     do {
-        printMenu();
-        do {
-            printf("Your choice: ");
-        } while(!getIntRange(&choice, 0, 2));
-        switch (choice) {
-            case 1:
+        switch (menuChoice(title, msg, entries, COUNTOF(entries))) {
+            case '1':
                 menuAddDictionaryWord(dico);
                 break;
-            case 2:
-                menuSearchWord(dico);
-                break;
-            case 0:
+            case '2':
                 freeDictionary(dico);
-                clear_terminal();
+                break;
+            case '0':
+                continu = false;
                 break;
         }
-    } while(choice != 0);
+    } while(continu);
 }
 
 /**
@@ -106,7 +99,7 @@ void menu(Dictionary *dico) {
  *
  */
 void menuCreateDictionary(void) {
-    char *filename;
+    char *filename = getStringColor();
     printf("Dictionary filename: ");
     filename = malloc(sizeof(char) * 255);
     getString(255, filename);

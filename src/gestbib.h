@@ -2,10 +2,7 @@
 #define  __GESTBIB_H__
 
 #include "dictionary.h"
-#include <ctype.h>
 
-void printMainMenu(void);
-void printMenu(void);
 void mainMenu(void);
 void menu(Dictionary *dico);
 
