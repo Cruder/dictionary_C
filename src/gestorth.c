@@ -9,7 +9,7 @@
 void searchMissingWords(Dictionary *dico, const char *filename, int code) {
     FILE *file = fopen(filename, "r");
     if(file == NULL) {
-        fprintf(stderr, "The file you want to access don't exist");
+        fprintf(stderr, "The file you want to access does not exist");
         return;
     }
     char *str = malloc(sizeof(char) * 255);
@@ -69,4 +69,55 @@ void suggestSimilarWords(Dictionary *dico, const char *filename) {
 */
 void listMissingWords(Dictionary *dico, const char *filename) {
     searchMissingWords(dico, filename, 0);
+}
+
+/**
+* \param dictionary The dictionary who contains words
+* \param filename  The name of the file who contain the text
+*
+* \brief Auto correct the given file with the words from the given dictionary
+*/
+void autoCorrectFile(Dictionary *dico, const char *filename) {
+    FILE *file = fopen(filename, "r");
+    char *file_out = malloc(sizeof(char) * 255);
+    FILE *out = fopen(strcat(strcpy(file_out, filename), ".revised"), "w");
+    if(file == NULL) {
+        fprintf(stderr, "The file you want to access does not exist");
+        return;
+    }
+    char *str = malloc(sizeof(char) * 255);
+    int c;
+    size_t index = 0;
+    bool word = false;
+    while (!feof(file)) {
+        c = fgetc(file);
+        if (isLetter(tolower(c))) {
+            word = true;
+            str[index++] = c;
+            str[index] = '\0';
+        } else {
+            if (strlen(str) != 0) {
+                LinkedWords *first_word = getLinkedWordThresold(dico, 1, str);
+                printf("%s\n", str);
+                if (wordPresent(dico, str)) {
+                    fputs(str, out);
+                } else if (first_word != NULL) {
+                    fputs(first_word->word, out);
+                } else {
+                    fputs(str, out);
+                }
+                freeLinkedWords(first_word);
+            }
+            index = 0;
+            str[index] = '\0';
+
+            if(!feof(file)) {
+                char *remain = charToStr(c);
+                fputs(remain, out);
+                free(remain);
+            }
+        }
+    }
+    free(str);
+    fclose(file);
 }

@@ -7,5 +7,6 @@
 void searchMissingWords(Dictionary *dico, const char *filename, int code);
 void listMissingWords(Dictionary *dico, const char *filename);
 void suggestSimilarWords(Dictionary *dico, const char *filename);
+void autoCorrectFile(Dictionary *dico, const char *filename);
 
 #endif //__GESTORTH_H__
