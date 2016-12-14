@@ -3,4 +3,6 @@
 
 #include "dictionary.h"
 
+void listMissingWords(Dictionary *dictionary, const char *filename);
+
 #endif //__GESTORTH_H__
