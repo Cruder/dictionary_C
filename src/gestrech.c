@@ -74,18 +74,7 @@ void menuSearchSimilarWord(Dictionary *dico) {
         printf("Enter a word: ");
     } while (!getString(255, word));
     if(strlen(chomp(word)) > 0) {
-        LinkedWords *first_linked_word;
-        first_linked_word = getLinkedWordThresold(dico,
-                                                  dico->metadata->threshold,
-                                                  word);
-        if (first_linked_word != NULL) {
-            printf("Similar words:\n");
-            displayLinkedWord(first_linked_word);
-            freeLinkedWords(first_linked_word);
-        } else {
-            printf("An error occured when reading the dictionary %s.\n",
-                    dico->filename);
-        }
+        displaySimilarWords(dico, dico->metadata->threshold, word);
     }
     free(word);
 }
@@ -145,4 +134,13 @@ void menuChangeThreshold(Metadata *metadata, const char *filename) {
 
     metadata->threshold = (size_t)value;
     setMetadata(metadata, filename);
+}
+
+void displaySimilarWords(Dictionary *dico, size_t threshold, char *str) {
+    LinkedWords *first_word = getLinkedWordThresold(dico, threshold, str);
+    if (first_word != NULL) {
+        printf("Similar words:\n");
+        displayLinkedWord(first_word);
+        freeLinkedWords(first_word);
+    }
 }
