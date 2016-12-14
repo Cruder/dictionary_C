@@ -92,10 +92,14 @@ Dictionary* selectDictionary(const char *filename) {
             dico->metadata = loadMetadata(filename);
             if(dico->metadata != NULL)
                 displayMetadata(dico->metadata);
-            else
+            else {
                 freeDictionary(dico);
-        } else
+                dico = NULL;
+            }
+        } else {
             freeDictionary(dico);
+            dico = NULL;
+        }
     }
     return dico;
 }
