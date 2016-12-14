@@ -122,6 +122,7 @@ int levenshtein(char *str1, char *str2) {
 /**
  * \param metadata Metadata to change
  * \param filename The name of the metadata file
+ * \brief  Help the user to change the threshold for a dictionary
  */
 void menuChangeThreshold(Metadata *metadata, const char *filename) {
     int value;
@@ -136,6 +137,12 @@ void menuChangeThreshold(Metadata *metadata, const char *filename) {
     setMetadata(metadata, filename);
 }
 
+/**
+ * \param dico The dictionary on which to display the similar words to str
+ * \param threshold The threshold of similarity
+ * \param str The word on with to search similarity
+ * \brief Show all the similar words to the given str
+ */
 void displaySimilarWords(Dictionary *dico, size_t threshold, char *str) {
     LinkedWords *first_word = getLinkedWordThresold(dico, threshold, str);
     if (first_word != NULL) {
