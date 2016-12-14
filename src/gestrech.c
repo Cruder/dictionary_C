@@ -40,7 +40,7 @@ void menu2OpenDictionary(void) {
 /**
  * \brief Function for guide user into the second menu
  */
-void menu2(const Dictionary *dico) {
+void menu2(Dictionary *dico) {
     const ColorOut title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
     const ColorOut msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
     MenuEntry entries[] = {{'1', "Change the threshold"},

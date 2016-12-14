@@ -1,4 +1,5 @@
 #include "gestorth.h"
+#include <AccelLib/terminal.h>
 
 /**
  * \param dictionary The dictionary who contains words

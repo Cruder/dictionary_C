@@ -2,6 +2,7 @@
 #define  __GESTORTH_H__
 
 #include "dictionary.h"
+#include "gestrech.h"
 
 void listMissingWords(Dictionary *dictionary, const char *filename);
 

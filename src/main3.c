@@ -1,4 +1,6 @@
 #include "gestorth.h"
+#include <AccelLib/terminal.h>
+
 
 int main(void) {
     // Should use the menu3 method
