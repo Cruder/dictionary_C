@@ -1,5 +1,6 @@
 #include "gestorth.h"
 #include <AccelLib/terminal.h>
+#include "menu.h"
 
 /**
  * \brief Function for guide user into the main menu

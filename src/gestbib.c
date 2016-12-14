@@ -1,6 +1,7 @@
 #include "gestbib.h"
 #include <ctype.h>
 #include <AccelLib/terminal.h>
+#include "menu.h"
 #include "input.h"
 
 /**
@@ -99,10 +100,8 @@ void menu(Dictionary *dico) {
  *
  */
 void menuCreateDictionary(void) {
-    char *filename = getStringColor();
     printf("Dictionary filename: ");
-    filename = malloc(sizeof(char) * 255);
-    getString(255, filename);
+    char *filename = getStringColor(COLOR_YELLOW, COLOR_BLACK);
     if(createDictionary(filename)) {
         printf("Dictionary %s has been created.\n", filename);
     } else {
