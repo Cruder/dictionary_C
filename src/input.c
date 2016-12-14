@@ -150,3 +150,39 @@ bool isIntRange(int number, int min, int max) {
     }
     return true;
 }
+
+/**
+ * \brief Function for read a string from the stdin (colored version)
+ *
+ * Remember to free the string returned !
+ *
+ * \param fg color foreground
+ * \param bg color background
+ * \return string input
+ */
+char* getStringColor(const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
+    char *buffer = NULL;
+    if(color_scanf(fg, bg, "%m[^\n]", &buffer) == 1) { //version 2013
+        ;
+        //free(buffer);
+    }
+    return buffer;
+}
+
+/**
+ * \brief Function for read a string from the stdin (colored version)
+ *
+ * Remember to free the string returned !
+ *
+ * \param fg color foreground
+ * \param bg color background
+ * \return string input
+ */
+char* getWordColor(const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
+    char *buffer = NULL;
+    if(color_scanf(fg, bg, "%ms", &buffer) == 1) { //version 2013
+        ;
+        //free(buffer);
+    }
+    return buffer;
+}

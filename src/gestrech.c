@@ -32,11 +32,11 @@ void menu2OpenDictionary(void) {
     char *dico = menuSelectDictionary();
     if(dico != NULL) {
         color_puts(COLOR_YELLOW, COLOR_BLACK, "Opening dictionary ... ");
-        Dictionary dic = loadDictionary(dico);
-        if(dico != NULL) {
-            menu2(dico);
+        Dictionary *dic = loadDictionary(dico);
+        if(dic != NULL) {
+            menu2(dic);
             color_printf(COLOR_YELLOW, COLOR_BLACK, "Closing dictionary ... ");
-            freeDictionary(dico);
+            freeDictionary(dic);
             color_printf(COLOR_GREEN, COLOR_BLACK, "Done\n");
         } else {
             color_printf(COLOR_LIGHT_RED, COLOR_BLACK, "Error while opening the dictionary %s ...\n", dico);
