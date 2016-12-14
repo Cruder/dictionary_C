@@ -43,14 +43,16 @@ void menu2OpenDictionary(void) {
 void menu2(const Dictionary *dico) {
     const ColorOut title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
     const ColorOut msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
-    MenuEntry entries[] = {{'1', "Search a similar word"}, {'0', "Quit dictionary"}};
+    MenuEntry entries[] = {{'1', "Change the threshold"},
+                           {'2', "Search a similar word"},
+                           {'0', "Quit dictionary"}};
     bool continu = true;
     do {
         switch(menuChoice(title, msg, entries, COUNTOF(entries))) {
             case '1':
                 menuChangeThreshold(dico->metadata, dico->filename);
                 break;
-            case 's':
+            case '2':
                 menuSearchSimilarWord(dico);
                 break;
             case '0':
