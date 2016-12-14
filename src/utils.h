@@ -14,5 +14,7 @@ void quickSort(char **array, int start, int end);
 int minInt(int a, int b);
 char *chomp(char *str);
 void cleanWord(char *word);
+bool isLetter(int c);
+char *charToStr(char c);
 
 #endif /* end of include guard:  */

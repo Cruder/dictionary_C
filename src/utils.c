@@ -131,3 +131,24 @@ void cleanWord(char *word) {
         }
     }
 }
+
+/**
+ * \param c A character
+ * \brief Check if the given character is a latin letter
+ * \return Boolean true if it's a lattin letter
+ */
+bool isLetter(int c) {
+    return (c >= 'a' && c <= 'z') ? true : false;
+}
+
+/**
+ * \param c A character
+ * \brief Parse the given character to a string
+ * \return Char* the pointer to the string
+ */
+char *charToStr(char c) {
+    char *str = malloc(sizeof(char) * 2);
+    str[0] = c;
+    str[1] = '\0';
+    return str;
+}
