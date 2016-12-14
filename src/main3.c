@@ -1,6 +1,7 @@
 #include "gestorth.h"
 
 int main(void) {
-    printf("Hello Word\n");
+    clear();
+    main3Menu();
     return 0;
 }
