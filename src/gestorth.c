@@ -14,8 +14,7 @@ void listMissingWords(Dictionary *dictionary, const char *filename) {
     }
 
     char *str = malloc(sizeof(char) * 255);
-
-    printf("Mots non présent dans le dictionaire.\n");
+    bool missing = false;
     size_t line = 1;
     while(!feof(file)) {
         fscanf(file, "%s", str);
@@ -23,6 +22,10 @@ void listMissingWords(Dictionary *dictionary, const char *filename) {
         // strlen(str) > 0 because of punctuation removal
         size_t wordlen = strlen(str);
         if(wordlen > 0 && wordPresent(dictionary, str) == false) {
+            if (missing == false) {
+                printf("These words are missing :\n");
+                missing = true;
+            }
             printf("\t%zu > %s\n", line, str);
             for(size_t i = 0; i < wordlen; ++i) {
                 str[i] = '\0';
@@ -37,7 +40,9 @@ void listMissingWords(Dictionary *dictionary, const char *filename) {
         }
     }
 
-    printf("Line %zu\n", line);
+    if (missing == false) {
+        printf("The file is correct.\n");
+    }
 
     free(str);
     fclose(file);
