@@ -8,11 +8,11 @@ if(LINKS)
     link_directories(${LINKS})
 endif()
 
-set(common dictionary.c metadata.c gestmemory.c input.c utils.c)
+set(common dictionary.c metadata.c gestmemory.c input.c utils.c menu.c)
 
 add_executable(Dictionary1 main1.c gestbib.c ${common})
-add_executable(Dictionary2 main2.c gestrech.c ${common} linked_words.c menu.c)
-add_executable(Dictionary3 main3.c gestrech.c gestorth.c linked_words.c menu.c ${common})
+add_executable(Dictionary2 main2.c gestrech.c ${common} linked_words.c)
+add_executable(Dictionary3 main3.c gestrech.c gestorth.c linked_words.c ${common})
 add_executable(Dictionary4 main4.c gestexpr.c ${common})
 
 target_link_libraries(Dictionary1 AccelLib)
