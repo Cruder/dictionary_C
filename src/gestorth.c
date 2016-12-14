@@ -6,7 +6,7 @@
  *
  * \brief List all not existing words
  */
-void listUnexistsWords(Dictionary *dictionary, const char *filename) {
+void listMissingWords(Dictionary *dictionary, const char *filename) {
     FILE *file = fopen(filename, "r");
     if(file == NULL) {
         fprintf(stderr, "The file you want to access don't exist");
