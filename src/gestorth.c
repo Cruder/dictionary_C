@@ -1,6 +1,77 @@
 #include "gestorth.h"
 
 /**
+ * \brief Function for guide user into the third main menu
+ */
+void main3Menu(void) {
+    int choice;
+    do {
+        printf("\n\n*** Dictionaries management ***\n\n"
+               "\t1. Open an existing dictionary\n"
+               "\t0. Quit\n\n");
+        do {
+            printf("Your choice: ");
+        } while(!getIntRange(&choice, 0, 1));
+        switch (choice) {
+            case 1:
+                menu3OpenDictionary();
+                break;
+            case 0:
+                printf("Good bye!\n");
+                break;
+        }
+    } while(choice != 0);
+}
+
+/**
+ * \brief Function for guide user into the third menu
+ */
+void menu3(Dictionary *dico) {
+    int choice;
+    do {
+        printf("\n\n--- Dictionary %s ---\n\n"
+               "\t1. Find unknown words\n"
+               "\t2. Suggest a correction for unknown words\n"
+               "\t3. Auto correct a text file\n"
+               "\t0. Return to Dictionaries management\n\n", dico->filename);
+        do {
+            printf("Your choice: ");
+        } while(!getIntRange(&choice, 0, 3));
+        char *filename = malloc(sizeof(char) * 255);
+        printf("Please tape the path to your txt file: ");
+        getString(255, filename);
+        switch (choice) {
+            case 1:
+                listMissingWords(dico, filename);
+                break;
+            case 2:
+                suggestSimilarWords(dico, filename);
+                break;
+            case 3:
+                autoCorrectFile(dico, filename);
+                break;
+            case 0:
+                freeDictionary(dico);
+                clear();
+                break;
+        }
+        free(filename);
+    } while(choice != 0);
+}
+
+/**
+ * \brief Help the user to open a Dictionary
+ */
+void menu3OpenDictionary(void) {
+    char *dico = menuSelectDictionary();
+    if(dico != NULL) {
+        menu3(selectDictionary(dico));
+        free(dico);
+        dico = NULL;
+    }
+}
+
+/**
  * \param dico The dictionary who contains words
  * \param filename  The name of the file who contain the text
  * \param code  A code to switch between features

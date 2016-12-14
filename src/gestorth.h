@@ -5,6 +5,10 @@
 #include "linked_words.h"
 #include <ctype.h>
 
+void main3Menu(void);
+void menu3(Dictionary *dico);
+void menu3OpenDictionary(void);
+
 void searchMissingWords(Dictionary *dico, const char *filename, int code);
 void listMissingWords(Dictionary *dico, const char *filename);
 void suggestSimilarWords(Dictionary *dico, const char *filename);
