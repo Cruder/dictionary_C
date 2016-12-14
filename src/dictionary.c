@@ -30,9 +30,11 @@ bool createDictionary(const char *filename) {
  */
 Dictionary *emptyDictionary() {
     Dictionary *d = malloc(sizeof(Dictionary));
-    d->metadata = NULL;
-    d->file = NULL;
-    d->filename = NULL;
+    if(d != NULL) {
+        d->metadata = NULL;
+        d->file = NULL;
+        d->filename = NULL;
+    }
     return d;
 }
 
@@ -82,12 +84,19 @@ void freeDictionary(Dictionary *dico) {
  * \return Dictionary* pointer to the Dictionary
  */
 Dictionary* selectDictionary(const char *filename) {
-    Dictionary *dico;
-    dico = emptyDictionary();
-    dico->filename = malloc(sizeof(char) * (strlen(filename) + 1));
-    strcpy(dico->filename, filename);
-    dico->metadata = loadMetadata(filename);
-    displayMetadata(dico->metadata);
+    Dictionary *dico = emptyDictionary();
+    if(dico != NULL) {
+        dico->filename = malloc(sizeof(char) * (strlen(filename) + 1));
+        if(dico->filename != NULL) {
+            strcpy(dico->filename, filename);
+            dico->metadata = loadMetadata(filename);
+            if(dico->metadata != NULL)
+                displayMetadata(dico->metadata);
+            else
+                freeDictionary(dico);
+        } else
+            freeDictionary(dico);
+    }
     return dico;
 }
 
