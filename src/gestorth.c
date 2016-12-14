@@ -15,7 +15,7 @@ void listUnexistsWords(Dictionary *dictionary, const char *filename) {
 
     char *str = malloc(sizeof(char) * 255);
 
-    size_t counter = 0;
+    printf("Mots non présent dans le dictionaire.\n");
     size_t line = 1;
     while(!feof(file)) {
         fscanf(file, "%s", str);
@@ -24,7 +24,6 @@ void listUnexistsWords(Dictionary *dictionary, const char *filename) {
         size_t wordlen = strlen(str);
         if(wordlen > 0 && wordPresent(dictionary, str) == false) {
             printf("\t%zu > %s\n", line, str);
-            ++counter;
             for(size_t i = 0; i < wordlen; ++i) {
                 str[i] = '\0';
             }
