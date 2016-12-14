@@ -31,16 +31,29 @@ void main2Menu(void) {
 void menu2OpenDictionary(void) {
     char *dico = menuSelectDictionary();
     if(dico != NULL) {
-        menu2(selectDictionary(dico));
+        color_puts(COLOR_YELLOW, COLOR_BLACK, "Opening dictionary ... ");
+        Dictionary dic = loadDictionary(dico);
+        if(dico != NULL) {
+            menu2(dico);
+            color_printf(COLOR_YELLOW, COLOR_BLACK, "Closing dictionary ... ");
+            freeDictionary(dico);
+            color_printf(COLOR_GREEN, COLOR_BLACK, "Done\n");
+        } else {
+            color_printf(COLOR_LIGHT_RED, COLOR_BLACK, "Error while opening the dictionary %s ...\n", dico);
+            pause_msg();
+        }
         free(dico);
         dico = NULL;
+    } else {
+        color_puts(COLOR_LIGHT_RED, COLOR_BLACK, "No dictionary selected ...");
+        pause_msg();
     }
 }
 
 /**
  * \brief Function for guide user into the second menu
  */
-void menu2(Dictionary *dico) {
+void menu2(const Dictionary *dico) {
     const ColorOut title = txtColor("Dictionary", COLOR_WHITE, COLOR_BLACK);
     const ColorOut msg = txtColor(dico->filename, COLOR_BLACK, COLOR_LIGHT_GRAY);
     MenuEntry entries[] = {{'1', "Change the threshold"},
@@ -56,9 +69,6 @@ void menu2(Dictionary *dico) {
                 menuSearchSimilarWord(dico);
                 break;
             case '0':
-                color_printf(COLOR_YELLOW, COLOR_BLACK, "Closing dictionary ... ");
-                freeDictionary(dico);
-                color_printf(COLOR_GREEN, COLOR_BLACK, "Done\n");
                 continu = false;
                 break;
         }

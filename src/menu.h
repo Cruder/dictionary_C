@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <AccelLib/terminal.h>
 
+#define pause_msg() {color_printf(COLOR_DARK_GRAY, COLOR_BLACK, "Press any key to continue"); \
+                 color_getchar(COLOR_BLACK, COLOR_BLACK);}
+
 /**
  * \struct Menu_entry
  * \brief Structure of an entry of a menu

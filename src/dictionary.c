@@ -77,13 +77,13 @@ void freeDictionary(Dictionary *dico) {
 }
 
 /**
- * \fn Dictionary* selectDictionary(const char *filename)
+ * \fn Dictionary* loadDictionary(const char *filename)
  * \param filename String corresponding to the name of the dicitonary without extension to select
  *
  * \brief Load a dictionary
  * \return Dictionary* pointer to the Dictionary
  */
-Dictionary* selectDictionary(const char *filename) {
+Dictionary* loadDictionary(const char *filename) {
     Dictionary *dico = emptyDictionary();
     if(dico != NULL) {
         dico->filename = malloc(sizeof(char) * (strlen(filename) + 1));

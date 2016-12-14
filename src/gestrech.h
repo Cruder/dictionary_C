@@ -6,7 +6,7 @@
 #include "linked_words.h"
 #include <stdlib.h>
 
-void menu2(Dictionary *dico);
+void menu2(const Dictionary *dico);
 void main2Menu(void);
 void menu2OpenDictionary(void);
 

@@ -25,7 +25,7 @@ Dictionary *emptyDictionary();
 bool createDictionary(const char *filename);
 FILE* openDictionaryFile(const char *filename, const char *rights);
 void freeDictionary(Dictionary *dico);
-Dictionary* selectDictionary(const char *filename);
+Dictionary* loadDictionary(const char *filename);
 char *menuSelectDictionary(void);
 bool checkDictionaryPath();
 char **listDictionaries(char *dirname, size_t *count);
