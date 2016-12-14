@@ -81,10 +81,11 @@ void menu2(const Dictionary *dico) {
  *
  */
 void menuSearchSimilarWord(Dictionary *dico) {
-    char *word = malloc(sizeof(char) * 255);
+    char *word = NULL;
     do {
-        printf("Enter a word: ");
-    } while (!getString(255, word));
+        color_printf(COLOR_WHITE, COLOR_BLACK, "Enter a word: ");
+        word = getStringColor(COLOR_YELLOW, COLOR_BLACK);
+    } while (word == NULL);
     if(strlen(chomp(word)) > 0) {
         LinkedWords *first_linked_word;
         first_linked_word = getLinkedWordThresold(dico,

@@ -163,10 +163,10 @@ bool isIntRange(int number, int min, int max) {
 char* getStringColor(const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
     char *buffer = NULL;
     if(color_scanf(fg, bg, "%m[^\n]", &buffer) == 1) { //version 2013
-        ;
+        return buffer;
         //free(buffer);
-    }
-    return buffer;
+    } else
+        return NULL;
 }
 
 /**
@@ -181,8 +181,8 @@ char* getStringColor(const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
 char* getWordColor(const COLOR_TERMINAL fg, const COLOR_TERMINAL bg) {
     char *buffer = NULL;
     if(color_scanf(fg, bg, "%ms", &buffer) == 1) { //version 2013
-        ;
+        return buffer;
         //free(buffer);
-    }
-    return buffer;
+    } else
+        return NULL;
 }
