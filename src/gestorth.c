@@ -20,16 +20,9 @@ void listUnexistsWords(Dictionary *dictionary, const char *filename) {
     LinkedWords *first_linked_word = NULL;
     LinkedWords *next_linked_word = NULL;
     size_t counter = 0;
-    size_t line = 0;
+    size_t line = 1;
     while(!feof(file)) {
         fscanf(file, "%s", str);
-        int newline = fgetc(file);
-        if(newline == '\n') {
-            ++line;
-        }
-        if(!feof(file)) {
-            fseek(file, -1, SEEK_CUR);
-        }
         cleanWord(str);
         // strlen(str) > 0 because of punctuation removal
         size_t wordlen = strlen(str);
@@ -47,6 +40,13 @@ void listUnexistsWords(Dictionary *dictionary, const char *filename) {
             for(size_t i = 0; i < wordlen; ++i) {
                 str[i] = '\0';
             }
+        }
+        int newline;
+        while ((newline = fgetc(file)) == '\n') {
+            ++line;
+        }
+        if(!feof(file)) {
+            fseek(file, -1, SEEK_CUR);
         }
     }
 
