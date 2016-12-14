@@ -217,7 +217,8 @@ char *menuSelectDictionary(void) {
     }
 
     char *value = malloc(sizeof(char) * (strlen(dicos[choice - 1]) + 1));
-    strcpy(value, dicos[choice - 1]);
+    if(value != NULL)
+        strcpy(value, dicos[choice - 1]);
     freeBiChar(dicos, count);
     return value;
 }
