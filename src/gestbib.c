@@ -132,7 +132,13 @@ void menuAddDictionaryWord(Dictionary *dico) {
         printf("Enter a word: ");
     } while (!getString(255, word));
 
+    size_t strlength = strlen(word);
+    for(size_t i = 0; i < strlength; ++i) {
+        word[i] = (char)tolower(word[i]);
+    }
+
     long pos = positionForWord(dico, word);
+
     if (pos == -1) {
         return;
     }
