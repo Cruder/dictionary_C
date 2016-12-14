@@ -7,11 +7,11 @@
 #include "gestrech.h"
 
 void main3Menu(void);
-void menu3OpenDictionary(void) {
-void menu3(const Dictionary *dico) {
+void menu3OpenDictionary(void);
+void menu3(const Dictionary *dico);
 
-void searchMissingWords(Dictionary *dico, const char *filename, int code);
 void listMissingWords(Dictionary *dico, const char *filename);
+void searchMissingWords(Dictionary *dico, const char *filename, int code);
 void suggestSimilarWords(Dictionary *dico, const char *filename);
 void autoCorrectFile(Dictionary *dico, const char *filename);
 void autoCorrectFileWrite(Dictionary *dico, char *str, FILE *out);

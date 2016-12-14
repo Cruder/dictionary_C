@@ -18,4 +18,5 @@ add_executable(Dictionary4 main4.c gestexpr.c ${common})
 target_link_libraries(Dictionary1 AccelLib)
 target_link_libraries(Dictionary2 AccelLib)
 target_link_libraries(Dictionary3 AccelLib)
+target_link_libraries(Dictionary4 AccelLib)
 

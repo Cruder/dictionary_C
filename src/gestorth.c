@@ -60,7 +60,10 @@ void menu3(const Dictionary *dico) {
     do {
         switch(menuChoice(title, msg, entries, COUNTOF(entries))) {
             case '1':
-                listMissingWords(dico, "yolo.txt");
+                printf("Entre the path of text file : ");
+                const char *path = getStringColor(COLOR_YELLOW, COLOR_BLACK);
+                listMissingWords(dico, path);
+                free(path);
                 break;
             case '0':
                 continu = false;
@@ -78,7 +81,8 @@ void menu3(const Dictionary *dico) {
 void searchMissingWords(Dictionary *dico, const char *filename, int code) {
     FILE *file = fopen(filename, "r");
     if(file == NULL) {
-        fprintf(stderr, "The file you want to access does not exist");
+        fprintf(stderr, "The file you want to access does not exist\n");
+        pause_msg();
         return;
     }
     char *str = malloc(sizeof(char) * 255);
