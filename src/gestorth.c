@@ -1,7 +1,7 @@
 #include "gestorth.h"
 
 /**
- * \param dictionary The dictionary who contains words
+ * \param dico The dictionary who contains words
  * \param filename  The name of the file who contain the text
  * \param code  A code to switch between features
  * \brief List all not existing words and may suggest a correction if code is equal to 1
@@ -52,7 +52,7 @@ void searchMissingWords(Dictionary *dico, const char *filename, int code) {
 }
 
 /**
- * \param dictionary The dictionary who contains words
+ * \param dico The dictionary who contains words
  * \param filename  The name of the file who contain the text
  *
  * \brief List all not existing words and suggest a correction
@@ -62,7 +62,7 @@ void suggestSimilarWords(Dictionary *dico, const char *filename) {
 }
 
 /**
-* \param dictionary The dictionary who contains words
+* \param dico The dictionary who contains words
 * \param filename  The name of the file who contain the text
 *
 * \brief List all not existing words
@@ -72,7 +72,7 @@ void listMissingWords(Dictionary *dico, const char *filename) {
 }
 
 /**
-* \param dictionary The dictionary who contains words
+* \param dico The dictionary who contains words
 * \param filename  The name of the file who contain the text
 *
 * \brief Auto correct the given file with the words from the given dictionary
@@ -81,43 +81,52 @@ void autoCorrectFile(Dictionary *dico, const char *filename) {
     FILE *file = fopen(filename, "r");
     char *file_out = malloc(sizeof(char) * 255);
     FILE *out = fopen(strcat(strcpy(file_out, filename), ".revised"), "w");
-    if(file == NULL) {
+    if(file == NULL || out == NULL) {
         fprintf(stderr, "The file you want to access does not exist");
+        free(file_out);
+        fclose(file);
+        fclose(out);
         return;
     }
     char *str = malloc(sizeof(char) * 255);
     int c;
     size_t index = 0;
-    bool word = false;
     while (!feof(file)) {
         c = fgetc(file);
-        if (isLetter(tolower(c))) {
-            word = true;
-            str[index++] = c;
+        if (isalpha(c)) {
+            str[index++] = tolower(c);
             str[index] = '\0';
         } else {
             if (strlen(str) != 0) {
-                LinkedWords *first_word = getLinkedWordThresold(dico, 1, str);
-                printf("%s\n", str);
-                if (wordPresent(dico, str)) {
-                    fputs(str, out);
-                } else if (first_word != NULL) {
-                    fputs(first_word->word, out);
-                } else {
-                    fputs(str, out);
-                }
-                freeLinkedWords(first_word);
+                autoCorrectFileWrite(dico, str, out);
             }
             index = 0;
             str[index] = '\0';
 
             if(!feof(file)) {
-                char *remain = charToStr(c);
+                char remain[] = { c, '\0' };
                 fputs(remain, out);
-                free(remain);
             }
         }
     }
     free(str);
     fclose(file);
+}
+
+/**
+* \param dico The dictionary who contains words
+* \param str  The string to correct and write into the dictionary
+* \param out  A pointer to the file to write
+* \brief Write the correction into the given file with the words from the given dictionary
+*/
+void autoCorrectFileWrite(Dictionary *dico, char *str, FILE *out) {
+    LinkedWords *first_word = getLinkedWordThresold(dico, 1, str);
+    if (wordPresent(dico, str)) {
+        fputs(str, out);
+    } else if (first_word != NULL) {
+        fputs(first_word->word, out);
+    } else {
+        fputs(str, out);
+    }
+    freeLinkedWords(first_word);
 }
