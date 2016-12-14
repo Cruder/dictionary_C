@@ -15,4 +15,3 @@ SET(CMAKE_EXE_LINKER_FLAGS "-static")
 
 add_subdirectory(lib)
 add_subdirectory(src)
-add_subdirectory(test)

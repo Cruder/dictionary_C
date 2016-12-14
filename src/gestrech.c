@@ -87,18 +87,7 @@ void menuSearchSimilarWord(Dictionary *dico) {
         word = getStringColor(COLOR_YELLOW, COLOR_BLACK);
     } while (word == NULL);
     if(strlen(chomp(word)) > 0) {
-        LinkedWords *first_linked_word;
-        first_linked_word = getLinkedWordThresold(dico,
-                                                  dico->metadata->threshold,
-                                                  word);
-        if (first_linked_word != NULL) {
-            printf("Similar words:\n");
-            displayLinkedWord(first_linked_word);
-            freeLinkedWords(first_linked_word);
-        } else {
-            printf("An error occured when reading the dictionary %s.\n",
-                    dico->filename);
-        }
+        displaySimilarWords(dico, dico->metadata->threshold, word);
     }
     free(word);
 }
@@ -146,6 +135,7 @@ int levenshtein(char *str1, char *str2) {
 /**
  * \param metadata Metadata to change
  * \param filename The name of the metadata file
+ * \brief  Help the user to change the threshold for a dictionary
  */
 void menuChangeThreshold(Metadata *metadata, const char *filename) {
     int value;
@@ -158,4 +148,19 @@ void menuChangeThreshold(Metadata *metadata, const char *filename) {
 
     metadata->threshold = (size_t)value;
     setMetadata(metadata, filename);
+}
+
+/**
+ * \param dico The dictionary on which to display the similar words to str
+ * \param threshold The threshold of similarity
+ * \param str The word on with to search similarity
+ * \brief Show all the similar words to the given str
+ */
+void displaySimilarWords(Dictionary *dico, size_t threshold, char *str) {
+    LinkedWords *first_word = getLinkedWordThresold(dico, threshold, str);
+    if (first_word != NULL) {
+        printf("Similar words:\n");
+        displayLinkedWord(first_word);
+        freeLinkedWords(first_word);
+    }
 }

@@ -14,5 +14,6 @@ void menuChangeThreshold(Metadata *metadata, const char *filename);
 void menuSearchSimilarWord(Dictionary *dico);
 
 int levenshtein(char *str1, char *str2);
+void displaySimilarWords(Dictionary *dico, size_t threshold, char *str);
 
 #endif //__GESTRECH_H__
